@@ -2,7 +2,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { MessageSquarePlus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { relativeTime } from "../lib/utils";
-import type { Conversation } from "../types";
+import type { Conversation, ReviewSummary } from "../types";
+import { RiskReviewList } from "./RiskReviewList";
 import { Button } from "./ui/button";
 import { ScrollArea } from "./ui/scroll-area";
 
@@ -13,6 +14,9 @@ interface ChatSidebarProps {
 	onSelect: (id: string) => void;
 	onCreate: () => void;
 	onDelete: (id: string) => void;
+	reviews: ReviewSummary[];
+	selectedReviewId: string | null;
+	onSelectReview: (reviewId: string) => void;
 }
 
 export function ChatSidebar({
@@ -22,6 +26,9 @@ export function ChatSidebar({
 	onSelect,
 	onCreate,
 	onDelete,
+	reviews,
+	selectedReviewId,
+	onSelectReview,
 }: ChatSidebarProps) {
 	const [hoveredId, setHoveredId] = useState<string | null>(null);
 
@@ -103,6 +110,12 @@ export function ChatSidebar({
 					</AnimatePresence>
 				</div>
 			</ScrollArea>
+
+			<RiskReviewList
+				reviews={reviews}
+				selectedReviewId={selectedReviewId}
+				onSelect={onSelectReview}
+			/>
 		</div>
 	);
 }

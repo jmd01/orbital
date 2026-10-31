@@ -4,7 +4,7 @@ import { useState } from "react";
 import { cn } from "../lib/utils";
 import type { Finding, RiskTable, Severity } from "../types";
 
-const SEVERITY_STYLES: Record<
+export const SEVERITY_STYLES: Record<
 	Severity,
 	{ label: string; chip: string; dot: string }
 > = {
@@ -21,7 +21,7 @@ const SEVERITY_STYLES: Record<
 	},
 };
 
-const SEVERITY_ORDER: Severity[] = ["high", "medium", "low"];
+export const SEVERITY_ORDER: Severity[] = ["high", "medium", "low"];
 
 function SeverityChip({ severity }: { severity: Severity }) {
 	const style = SEVERITY_STYLES[severity];

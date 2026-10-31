@@ -37,6 +37,13 @@ export function DocumentViewer({ document, pageJump }: DocumentViewerProps) {
 
 	// Show the requested page, and fetch where the finding's quote sits on it.
 	const documentId = document?.id;
+
+	// A different document starts at its first page. Declared before the jump effect below, so a
+	// pending jump to the new document still wins.
+	// biome-ignore lint/correctness/useExhaustiveDependencies: reset only when the document changes
+	useEffect(() => {
+		setCurrentPage(1);
+	}, [documentId]);
 	useEffect(() => {
 		setHighlights([]);
 		setRenderedPage(null);

@@ -4,6 +4,8 @@ import type {
 	Document,
 	HighlightBox,
 	Message,
+	ReviewDetail,
+	ReviewSummary,
 } from "../types";
 
 const BASE = "/api";
@@ -88,6 +90,16 @@ export async function fetchHighlights(
 ): Promise<HighlightBox[]> {
 	const res = await fetch(`${BASE}/findings/${findingId}/highlights`);
 	return handleResponse<HighlightBox[]>(res);
+}
+
+export async function fetchReviews(): Promise<ReviewSummary[]> {
+	const res = await fetch(`${BASE}/risk-reviews`);
+	return handleResponse<ReviewSummary[]>(res);
+}
+
+export async function fetchReview(reviewId: string): Promise<ReviewDetail> {
+	const res = await fetch(`${BASE}/risk-reviews/${reviewId}`);
+	return handleResponse<ReviewDetail>(res);
 }
 
 export function getDocumentUrl(documentId: string): string {

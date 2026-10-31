@@ -76,6 +76,25 @@ export interface HighlightBox {
 	y1: number;
 }
 
+// One entry in the Risk reviews list: the latest review of a document.
+export interface ReviewSummary {
+	review_id: string;
+	conversation_id: string;
+	document_id: string;
+	document_filename: string;
+	created_at: string;
+	counts: Record<Severity, number>;
+	total: number;
+}
+
+// A whole review with the document it was run on.
+export interface ReviewDetail {
+	conversation_id: string;
+	created_at: string;
+	document: Document;
+	table: RiskTable;
+}
+
 export interface ConversationDetail extends Conversation {
 	document?: Document;
 }
