@@ -7,9 +7,10 @@ import { RiskTableCard, RiskTableSkeleton } from "./RiskTable";
 
 interface MessageBubbleProps {
 	message: Message;
+	onJumpToPage: (page: number) => void;
 }
 
-export function MessageBubble({ message }: MessageBubbleProps) {
+export function MessageBubble({ message, onJumpToPage }: MessageBubbleProps) {
 	if (message.role === "system") {
 		return (
 			<motion.div
@@ -52,7 +53,11 @@ export function MessageBubble({ message }: MessageBubbleProps) {
 				className={cn("min-w-0", message.parts.length === 0 && "max-w-[80%]")}
 			>
 				{message.parts.map((part) => (
-					<RiskTableCard key={part.data.review_id} table={part.data} />
+					<RiskTableCard
+						key={part.data.review_id}
+						table={part.data}
+						onJumpToPage={onJumpToPage}
+					/>
 				))}
 				<div className="prose">
 					<Streamdown>{message.content}</Streamdown>
@@ -72,12 +77,14 @@ interface StreamingBubbleProps {
 	content: string;
 	riskTable: RiskTable | null;
 	reviewing: boolean;
+	onJumpToPage: (page: number) => void;
 }
 
 export function StreamingBubble({
 	content,
 	riskTable,
 	reviewing,
+	onJumpToPage,
 }: StreamingBubbleProps) {
 	return (
 		<div className="py-1.5">
@@ -85,7 +92,7 @@ export function StreamingBubble({
 				className={cn("min-w-0", !(riskTable || reviewing) && "max-w-[80%]")}
 			>
 				{riskTable ? (
-					<RiskTableCard table={riskTable} />
+					<RiskTableCard table={riskTable} onJumpToPage={onJumpToPage} />
 				) : (
 					reviewing && <RiskTableSkeleton />
 				)}

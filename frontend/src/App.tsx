@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { ChatSidebar } from "./components/ChatSidebar";
 import { ChatWindow } from "./components/ChatWindow";
 import { DocumentViewer } from "./components/DocumentViewer";
@@ -6,6 +6,7 @@ import { TooltipProvider } from "./components/ui/tooltip";
 import { useConversations } from "./hooks/use-conversations";
 import { useDocument } from "./hooks/use-document";
 import { useMessages } from "./hooks/use-messages";
+import type { PageJump } from "./types";
 
 export default function App() {
 	const {
@@ -34,6 +35,17 @@ export default function App() {
 		upload,
 		refresh: refreshDocument,
 	} = useDocument(selectedId);
+
+	const [pageJump, setPageJump] = useState<PageJump | null>(null);
+
+	const handleJumpToPage = useCallback(
+		(page: number) => {
+			if (document) {
+				setPageJump({ documentId: document.id, page, nonce: Date.now() });
+			}
+		},
+		[document],
+	);
 
 	const handleSend = useCallback(
 		async (content: string) => {
@@ -82,9 +94,10 @@ export default function App() {
 					conversationId={selectedId}
 					onSend={handleSend}
 					onUpload={handleUpload}
+					onJumpToPage={handleJumpToPage}
 				/>
 
-				<DocumentViewer document={document} />
+				<DocumentViewer document={document} pageJump={pageJump} />
 			</div>
 		</TooltipProvider>
 	);

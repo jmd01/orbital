@@ -59,6 +59,14 @@ export interface Document {
 	uploaded_at: string;
 }
 
+// A request to show a page of a document. The nonce makes repeat requests for the same page
+// count as new ones, e.g. after the reader has paged away.
+export interface PageJump {
+	documentId: string;
+	page: number;
+	nonce: number;
+}
+
 export interface ConversationDetail extends Conversation {
 	document?: Document;
 }

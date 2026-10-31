@@ -1,10 +1,11 @@
+import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, FileText, Loader2 } from "lucide-react";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Document as PDFDocument, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 import { getDocumentUrl } from "../lib/api";
-import type { Document } from "../types";
+import type { Document, PageJump } from "../types";
 import { Button } from "./ui/button";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -18,9 +19,10 @@ const DEFAULT_WIDTH = 400;
 
 interface DocumentViewerProps {
 	document: Document | null;
+	pageJump: PageJump | null;
 }
 
-export function DocumentViewer({ document }: DocumentViewerProps) {
+export function DocumentViewer({ document, pageJump }: DocumentViewerProps) {
 	const [numPages, setNumPages] = useState<number>(0);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [pdfLoading, setPdfLoading] = useState(true);
@@ -28,6 +30,16 @@ export function DocumentViewer({ document }: DocumentViewerProps) {
 	const [width, setWidth] = useState(DEFAULT_WIDTH);
 	const [dragging, setDragging] = useState(false);
 	const containerRef = useRef<HTMLDivElement>(null);
+	const scrollRef = useRef<HTMLDivElement>(null);
+
+	// Show the requested page when a jump is asked for this document.
+	const documentId = document?.id;
+	useEffect(() => {
+		if (pageJump && pageJump.documentId === documentId) {
+			setCurrentPage(pageJump.page);
+			scrollRef.current?.scrollTo({ top: 0 });
+		}
+	}, [pageJump, documentId]);
 
 	const handleMouseDown = useCallback(
 		(e: React.MouseEvent) => {
@@ -101,7 +113,7 @@ export function DocumentViewer({ document }: DocumentViewerProps) {
 			</div>
 
 			{/* PDF content */}
-			<div className="flex-1 overflow-y-auto p-4">
+			<div ref={scrollRef} className="flex-1 overflow-y-auto p-4">
 				{pdfError && (
 					<div className="rounded-lg bg-red-50 p-3 text-sm text-red-600">
 						{pdfError}
@@ -126,15 +138,22 @@ export function DocumentViewer({ document }: DocumentViewerProps) {
 					}
 				>
 					{!pdfLoading && !pdfError && (
-						<Page
-							pageNumber={currentPage}
-							width={pdfPageWidth}
-							loading={
-								<div className="flex items-center justify-center py-12">
-									<Loader2 className="h-5 w-5 animate-spin text-neutral-300" />
-								</div>
-							}
-						/>
+						<motion.div
+							key={`${currentPage}-${pageJump?.nonce ?? 0}`}
+							initial={{ opacity: 0.35 }}
+							animate={{ opacity: 1 }}
+							transition={{ duration: 0.25 }}
+						>
+							<Page
+								pageNumber={currentPage}
+								width={pdfPageWidth}
+								loading={
+									<div className="flex items-center justify-center py-12">
+										<Loader2 className="h-5 w-5 animate-spin text-neutral-300" />
+									</div>
+								}
+							/>
+						</motion.div>
 					)}
 				</PDFDocument>
 			</div>

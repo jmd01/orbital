@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, Loader2 } from "lucide-react";
+import { ArrowRight, ChevronDown, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "../lib/utils";
 import type { Finding, RiskTable, Severity } from "../types";
@@ -42,9 +42,16 @@ interface FindingRowProps {
 	finding: Finding;
 	open: boolean;
 	onToggle: () => void;
+	onJumpToPage: (page: number) => void;
 }
 
-function FindingRow({ finding, open, onToggle }: FindingRowProps) {
+function FindingRow({
+	finding,
+	open,
+	onToggle,
+	onJumpToPage,
+}: FindingRowProps) {
+	const page = finding.page;
 	return (
 		<li className="border-t border-neutral-100 first:border-t-0">
 			<button
@@ -85,8 +92,15 @@ function FindingRow({ finding, open, onToggle }: FindingRowProps) {
 							<blockquote className="border-l-2 border-neutral-300 pl-3 font-serif text-[13px] italic leading-relaxed text-neutral-500">
 								“{finding.quote}”
 							</blockquote>
-							{finding.page !== null && (
-								<p className="text-xs text-neutral-400">Page {finding.page}</p>
+							{page !== null && (
+								<button
+									type="button"
+									onClick={() => onJumpToPage(page)}
+									className="inline-flex items-center gap-1 text-xs font-medium text-neutral-500 transition-colors hover:text-neutral-900"
+								>
+									View on page {page}
+									<ArrowRight className="h-3 w-3" />
+								</button>
 							)}
 						</div>
 					</motion.div>
@@ -98,9 +112,10 @@ function FindingRow({ finding, open, onToggle }: FindingRowProps) {
 
 interface RiskTableCardProps {
 	table: RiskTable;
+	onJumpToPage: (page: number) => void;
 }
 
-export function RiskTableCard({ table }: RiskTableCardProps) {
+export function RiskTableCard({ table, onJumpToPage }: RiskTableCardProps) {
 	const [openId, setOpenId] = useState<string | null>(null);
 	const [filter, setFilter] = useState<Severity | null>(null);
 
@@ -148,6 +163,7 @@ export function RiskTableCard({ table }: RiskTableCardProps) {
 						key={finding.id}
 						finding={finding}
 						open={openId === finding.id}
+						onJumpToPage={onJumpToPage}
 						onToggle={() =>
 							setOpenId((current) =>
 								current === finding.id ? null : finding.id,
