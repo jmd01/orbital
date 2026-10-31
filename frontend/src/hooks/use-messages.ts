@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import * as api from "../lib/api";
-import type { Message } from "../types";
+import type { Message, RiskTable, StreamEvent } from "../types";
 
 export function useMessages(conversationId: string | null) {
 	const [messages, setMessages] = useState<Message[]>([]);
@@ -8,6 +8,8 @@ export function useMessages(conversationId: string | null) {
 	const [error, setError] = useState<string | null>(null);
 	const [streaming, setStreaming] = useState(false);
 	const [streamingContent, setStreamingContent] = useState("");
+	const [streamingRiskTable, setStreamingRiskTable] =
+		useState<RiskTable | null>(null);
 	const abortRef = useRef<AbortController | null>(null);
 
 	const refresh = useCallback(async () => {
@@ -46,12 +48,14 @@ export function useMessages(conversationId: string | null) {
 				role: "user",
 				content,
 				sources_cited: 0,
+				parts: [],
 				created_at: new Date().toISOString(),
 			};
 
 			setMessages((prev) => [...prev, userMessage]);
 			setStreaming(true);
 			setStreamingContent("");
+			setStreamingRiskTable(null);
 			setError(null);
 
 			try {
@@ -83,27 +87,23 @@ export function useMessages(conversationId: string | null) {
 						if (data === "[DONE]") continue;
 
 						try {
-							const parsed = JSON.parse(data) as {
-								type?: string;
-								content?: string;
-								delta?: string;
-								message?: Message;
-							};
+							const event = JSON.parse(data) as StreamEvent;
 
-							if (parsed.type === "delta" && parsed.delta) {
-								accumulated += parsed.delta;
-								setStreamingContent(accumulated);
-							} else if (parsed.type === "content" && parsed.content) {
-								accumulated += parsed.content;
-								setStreamingContent(accumulated);
-							} else if (parsed.type === "message" && parsed.message) {
-								// Final message from server
-								setMessages((prev) => [...prev, parsed.message as Message]);
-								accumulated = "";
-							} else if (parsed.content && !parsed.type) {
-								// Fallback: plain content field
-								accumulated += parsed.content;
-								setStreamingContent(accumulated);
+							switch (event.type) {
+								case "content":
+									accumulated += event.content;
+									setStreamingContent(accumulated);
+									break;
+								case "risk_table":
+									setStreamingRiskTable(event.table);
+									break;
+								case "message":
+									// Final message from server
+									setMessages((prev) => [...prev, event.message]);
+									accumulated = "";
+									break;
+								case "done":
+									break;
 							}
 						} catch {
 							// Skip invalid JSON lines
@@ -120,6 +120,7 @@ export function useMessages(conversationId: string | null) {
 						role: "assistant",
 						content: accumulated,
 						sources_cited: 0,
+						parts: [],
 						created_at: new Date().toISOString(),
 					};
 					setMessages((prev) => [...prev, assistantMessage]);
@@ -134,6 +135,7 @@ export function useMessages(conversationId: string | null) {
 			} finally {
 				setStreaming(false);
 				setStreamingContent("");
+				setStreamingRiskTable(null);
 			}
 		},
 		[conversationId, streaming],
@@ -145,6 +147,7 @@ export function useMessages(conversationId: string | null) {
 		error,
 		streaming,
 		streamingContent,
+		streamingRiskTable,
 		send,
 		refresh,
 	};
