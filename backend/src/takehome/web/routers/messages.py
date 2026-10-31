@@ -15,7 +15,12 @@ from takehome.db.models import Message
 from takehome.db.session import get_session
 from takehome.services.conversation import get_conversation, update_conversation
 from takehome.services.document import get_document_for_conversation
-from takehome.services.llm import chat_with_document, count_sources_cited, generate_title
+from takehome.services.llm import (
+    TextChunk,
+    chat_with_document,
+    count_sources_cited,
+    generate_title,
+)
 
 logger = structlog.get_logger()
 
@@ -138,16 +143,22 @@ async def send_message(
                 document_text=document_text,
                 conversation_history=conversation_history,
             ):
-                full_response += chunk
-                event_data = json.dumps({"type": "content", "content": chunk})
-                yield f"data: {event_data}\n\n"
+                if isinstance(chunk, TextChunk):
+                    full_response += chunk.text
+                    event_data = json.dumps({"type": "content", "content": chunk.text})
+                    yield f"data: {event_data}\n\n"
+                else:
+                    # Stage 3 will emit this to the frontend; for now just prove it arrives.
+                    logger.info("Risk table received", risk_count=len(chunk.risks))
 
         except Exception:
             logger.exception(
                 "Error during LLM streaming",
                 conversation_id=conversation_id,
             )
-            error_msg = "I'm sorry, an error occurred while generating a response. Please try again."
+            error_msg = (
+                "I'm sorry, an error occurred while generating a response. Please try again."
+            )
             full_response = error_msg
             event_data = json.dumps({"type": "content", "content": error_msg})
             yield f"data: {event_data}\n\n"

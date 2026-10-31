@@ -2,14 +2,33 @@ from __future__ import annotations
 
 import re
 from collections.abc import AsyncIterator
+from dataclasses import dataclass
 
 import structlog
 from pydantic_ai import Agent
+from pydantic_ai.messages import (
+    FunctionToolResultEvent,
+    PartDeltaEvent,
+    PartStartEvent,
+    TextPart,
+    TextPartDelta,
+    ToolReturn,
+)
 
 from takehome.config import settings  # noqa: F401 — triggers ANTHROPIC_API_KEY export
-from takehome.services.risk import RiskInput, RiskToolResult, summarise_risks
+from takehome.services.risk import RiskInput, RiskTable, summarise_risks
 
 logger = structlog.get_logger()
+
+
+@dataclass
+class TextChunk:
+    """A piece of the assistant's streamed text reply."""
+
+    text: str
+
+
+ChatEvent = TextChunk | RiskTable
 
 agent = Agent(
     "anthropic:claude-haiku-4-5-20251001",
@@ -31,14 +50,20 @@ agent = Agent(
 
 
 @agent.tool_plain
-def present_risks(risks: list[RiskInput]) -> RiskToolResult:
+def present_risks(risks: list[RiskInput]) -> ToolReturn:
     """Present the risks found in the document to the user as a table.
 
     Call once, with all material risks. Each quote must be copied verbatim from the document.
     """
     # Stage 1 stub: no validation or persistence yet, just prove the model calls the tool.
     logger.info("present_risks called", risk_count=len(risks), titles=[r.title for r in risks])
-    return summarise_risks(risks)
+    summary = summarise_risks(risks)
+    return ToolReturn(
+        # What the model sees: compact, enough to write a specific summary.
+        return_value=summary.model_dump(),
+        # What the app sees: the full table, delivered to the frontend by the stream.
+        metadata=RiskTable(risks=risks, counts=summary.counts),
+    )
 
 
 async def generate_title(user_message: str) -> str:
@@ -58,8 +83,8 @@ async def chat_with_document(
     user_message: str,
     document_text: str | None,
     conversation_history: list[dict[str, str]],
-) -> AsyncIterator[str]:
-    """Stream a response to the user's message, yielding text chunks.
+) -> AsyncIterator[ChatEvent]:
+    """Stream a response to the user's message, yielding text chunks and tool output.
 
     Builds a prompt that includes document context and conversation history,
     then streams the response from the LLM.
@@ -98,9 +123,17 @@ async def chat_with_document(
 
     full_prompt = "\n".join(prompt_parts)
 
-    async with agent.run_stream(full_prompt) as result:
-        async for text in result.stream_text(delta=True):
-            yield text
+    async with agent.run_stream_events(full_prompt) as events:
+        async for event in events:
+            if isinstance(event, PartStartEvent) and isinstance(event.part, TextPart):
+                if event.part.content:
+                    yield TextChunk(event.part.content)
+            elif isinstance(event, PartDeltaEvent) and isinstance(event.delta, TextPartDelta):
+                yield TextChunk(event.delta.content_delta)
+            elif isinstance(event, FunctionToolResultEvent) and isinstance(
+                event.part.metadata, RiskTable
+            ):
+                yield event.part.metadata
 
 
 def count_sources_cited(response: str) -> int:

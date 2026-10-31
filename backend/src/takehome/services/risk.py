@@ -24,6 +24,13 @@ class RiskInput(BaseModel):
     )
 
 
+class RiskTable(BaseModel):
+    """The full table of risks presented to the user. Sent to the frontend, never to the model."""
+
+    risks: list[RiskInput]
+    counts: dict[Severity, int]
+
+
 class RiskToolResult(BaseModel):
     """What the model gets back from the tool. Compact: enough to write a specific summary."""
 
