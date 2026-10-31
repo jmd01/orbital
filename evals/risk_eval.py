@@ -29,7 +29,11 @@ from dotenv import load_dotenv
 
 ROOT = Path(__file__).resolve().parent.parent
 RESULTS_DIR = ROOT / "evals" / "results"
-LLM_FILE = ROOT / "backend" / "src" / "takehome" / "services" / "llm.py"
+# Files that hold what the model is told: the system prompt and the tool schema descriptions.
+PROMPT_FILES = [
+    ROOT / "backend" / "src" / "takehome" / "services" / "llm.py",
+    ROOT / "backend" / "src" / "takehome" / "services" / "risk.py",
+]
 
 load_dotenv(ROOT / ".env")
 # Outside Docker the app's Settings rejects the extra keys in .env, so import it from a
@@ -101,7 +105,7 @@ class Meta(BaseModel):
     runs_per_doc: int
     commit: str
     dirty: bool
-    llm_hash: str
+    prompt_hash: str
     request: str
 
 
@@ -267,7 +271,7 @@ def to_markdown(meta: Meta, summaries: dict[str, DocSummary]) -> str:
         f"# Risk eval {meta.timestamp}",
         "",
         f"- model: `{meta.model}` · runs per doc: {meta.runs_per_doc}",
-        f"- commit: `{meta.commit}`{' (dirty)' if meta.dirty else ''} · llm.py hash: `{meta.llm_hash}`",
+        f"- commit: `{meta.commit}`{' (dirty)' if meta.dirty else ''} · prompt hash: `{meta.prompt_hash}`",
         "",
         "| Document | Tool called once | Risks per run | Exact quote | Located (exact+anchor) | "
         "Counts stated in summary | Title stability | Avg s |",
@@ -312,7 +316,7 @@ async def main() -> None:
         runs_per_doc=runs_per_doc,
         commit=git("rev-parse", "--short", "HEAD"),
         dirty=bool(git("status", "--porcelain", "--untracked-files=no")),
-        llm_hash=hashlib.sha256(LLM_FILE.read_bytes()).hexdigest()[:8],
+        prompt_hash=hashlib.sha256(b"".join(f.read_bytes() for f in PROMPT_FILES)).hexdigest()[:8],
         request=REQUEST,
     )
 
