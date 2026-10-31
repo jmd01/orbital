@@ -1,11 +1,11 @@
 from __future__ import annotations
 
 import re
-from collections.abc import AsyncIterator
+from collections.abc import AsyncIterator, Awaitable, Callable
 from dataclasses import dataclass
 
 import structlog
-from pydantic_ai import Agent
+from pydantic_ai import Agent, ModelRetry, RunContext
 from pydantic_ai.messages import (
     FunctionToolResultEvent,
     PartDeltaEvent,
@@ -16,7 +16,8 @@ from pydantic_ai.messages import (
 )
 
 from takehome.config import settings  # noqa: F401 — triggers ANTHROPIC_API_KEY export
-from takehome.services.risk import RiskInput, RiskTable, summarise_risks
+from takehome.db.session import async_session
+from takehome.services.risk import RiskInput, RiskTable, save_review, summarise_risks
 
 logger = structlog.get_logger()
 
@@ -30,8 +31,19 @@ class TextChunk:
 
 ChatEvent = TextChunk | RiskTable
 
+SaveReview = Callable[[list[RiskInput]], Awaitable[RiskTable]]
+
+
+@dataclass
+class ChatDeps:
+    """What tools need from the app. save_review is None when the conversation has no document."""
+
+    save_review: SaveReview | None
+
+
 agent = Agent(
     "anthropic:claude-haiku-4-5-20251001",
+    deps_type=ChatDeps,
     system_prompt=(
         "You are a helpful legal document assistant for commercial real estate lawyers. "
         "You help lawyers review and understand documents during due diligence.\n\n"
@@ -49,20 +61,21 @@ agent = Agent(
 )
 
 
-@agent.tool_plain
-def present_risks(risks: list[RiskInput]) -> ToolReturn:
+@agent.tool
+async def present_risks(ctx: RunContext[ChatDeps], risks: list[RiskInput]) -> ToolReturn:
     """Present the risks found in the document to the user as a table.
 
     Call once, with all material risks. Each quote must be copied verbatim from the document.
     """
-    # Stage 1 stub: no validation or persistence yet, just prove the model calls the tool.
-    logger.info("present_risks called", risk_count=len(risks), titles=[r.title for r in risks])
-    summary = summarise_risks(risks)
+    if ctx.deps.save_review is None:
+        raise ModelRetry("No document has been uploaded, so there is nothing to review.")
+    table = await ctx.deps.save_review(risks)
+    logger.info("present_risks saved", review_id=table.review_id, risk_count=len(risks))
     return ToolReturn(
         # What the model sees: compact, enough to write a specific summary.
-        return_value=summary.model_dump(),
-        # What the app sees: the full table, delivered to the frontend by the stream.
-        metadata=RiskTable(risks=risks, counts=summary.counts),
+        return_value=summarise_risks(risks).model_dump(),
+        # What the app sees: the saved table, delivered to the frontend by the stream.
+        metadata=table,
     )
 
 
@@ -70,7 +83,8 @@ async def generate_title(user_message: str) -> str:
     """Generate a 3-5 word conversation title from the first user message."""
     result = await agent.run(
         f"Generate a concise 3-5 word title for a conversation that starts with: '{user_message}'. "
-        "Return only the title, nothing else."
+        "Return only the title, nothing else.",
+        deps=ChatDeps(save_review=None),
     )
     title = str(result.output).strip().strip('"').strip("'")
     # Truncate if too long
@@ -83,6 +97,8 @@ async def chat_with_document(
     user_message: str,
     document_text: str | None,
     conversation_history: list[dict[str, str]],
+    conversation_id: str,
+    document_id: str | None,
 ) -> AsyncIterator[ChatEvent]:
     """Stream a response to the user's message, yielding text chunks and tool output.
 
@@ -123,7 +139,13 @@ async def chat_with_document(
 
     full_prompt = "\n".join(prompt_parts)
 
-    async with agent.run_stream_events(full_prompt) as events:
+    async def save(risks: list[RiskInput]) -> RiskTable:
+        async with async_session() as session:
+            return await save_review(session, conversation_id, document_id or "", risks)
+
+    deps = ChatDeps(save_review=save if document_id is not None else None)
+
+    async with agent.run_stream_events(full_prompt, deps=deps) as events:
         async for event in events:
             if isinstance(event, PartStartEvent) and isinstance(event.part, TextPart):
                 if event.part.content:

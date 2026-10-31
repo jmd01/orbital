@@ -151,6 +151,8 @@ async def send_message(
                 user_message=body.content,
                 document_text=document_text,
                 conversation_history=conversation_history,
+                conversation_id=conversation_id,
+                document_id=document.id if document else None,
             ):
                 if isinstance(chunk, TextChunk):
                     full_response += chunk.text
