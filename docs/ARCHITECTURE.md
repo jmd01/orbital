@@ -92,3 +92,20 @@ Model quality is covered by `evals/`, not unit tests.
   Accepted for this scope; harmless (no message part references them).
 - Scanned PDFs have no extractable text, so quote location is impossible without OCR.
 - JSON `parts` have no DB-level constraints; Pydantic validation on write is the guard.
+
+## Planned improvement: cite paragraph IDs instead of quoting text
+Today the model copies a quote and the backend searches for it. That is where drift comes from:
+in the evals the unlocated quotes were all paraphrases of real text (reworded, merged, or a dropped
+quotation mark). A deterministic alternative is to number the document's paragraphs at extraction
+(`[P12] ...`), have the model cite the ID, and let the backend look up that paragraph's exact text
+and page. No search, no paraphrase, and a cited ID is trivially checked for existence.
+- **Wins:** exact quote and page by construction; no fuzzy matching; PyMuPDF text blocks carry
+  bounding boxes, so the viewer could later highlight the paragraph, not just jump to the page.
+  Chat answers could cite `[P12]` too.
+- **Costs:** needs paragraph segmentation of PDFs (blocks can split or merge clauses; legal
+  numbering like `4.2.1` may be a better boundary); the stored text format changes, so existing
+  documents need re-extraction; slightly more prompt tokens; the model can still cite the wrong ID
+  (existence is checkable, relevance is not); a whole paragraph can be long to show as the quote,
+  so the row might show the model's short highlight validated as a substring of the paragraph.
+- **How to judge it:** the eval harness would report the share of cited IDs that exist and, on a
+  sample, whether the paragraph supports the claim.
