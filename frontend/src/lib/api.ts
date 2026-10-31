@@ -2,6 +2,7 @@ import type {
 	Conversation,
 	ConversationDetail,
 	Document,
+	HighlightBox,
 	Message,
 } from "../types";
 
@@ -80,6 +81,13 @@ export async function uploadDocument(
 		body: formData,
 	});
 	return handleResponse<Document>(res);
+}
+
+export async function fetchHighlights(
+	findingId: string,
+): Promise<HighlightBox[]> {
+	const res = await fetch(`${BASE}/findings/${findingId}/highlights`);
+	return handleResponse<HighlightBox[]>(res);
 }
 
 export function getDocumentUrl(documentId: string): string {

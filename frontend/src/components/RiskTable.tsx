@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, ChevronDown, Loader2 } from "lucide-react";
+import { ChevronDown, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "../lib/utils";
 import type { Finding, RiskTable, Severity } from "../types";
@@ -42,14 +42,14 @@ interface FindingRowProps {
 	finding: Finding;
 	open: boolean;
 	onToggle: () => void;
-	onJumpToPage: (page: number) => void;
+	onViewFinding: (finding: Finding) => void;
 }
 
 function FindingRow({
 	finding,
 	open,
 	onToggle,
-	onJumpToPage,
+	onViewFinding,
 }: FindingRowProps) {
 	const page = finding.page;
 	return (
@@ -89,18 +89,19 @@ function FindingRow({
 							<p className="text-sm leading-relaxed text-neutral-600">
 								{finding.summary}
 							</p>
-							<blockquote className="border-l-2 border-neutral-300 pl-3 font-serif text-[13px] italic leading-relaxed text-neutral-500">
-								“{finding.quote}”
-							</blockquote>
-							{page !== null && (
+							{page !== null ? (
 								<button
 									type="button"
-									onClick={() => onJumpToPage(page)}
-									className="inline-flex items-center gap-1 text-xs font-medium text-neutral-500 transition-colors hover:text-neutral-900"
+									onClick={() => onViewFinding(finding)}
+									title="Show in the document"
+									className="block w-full cursor-pointer rounded-r-sm border-l-2 border-neutral-300 pl-3 text-left font-serif text-[13px] italic leading-relaxed text-neutral-500 transition-colors hover:border-amber-300 hover:bg-amber-50 hover:text-neutral-700"
 								>
-									View on page {page}
-									<ArrowRight className="h-3 w-3" />
+									“{finding.quote}”
 								</button>
+							) : (
+								<blockquote className="border-l-2 border-neutral-300 pl-3 font-serif text-[13px] italic leading-relaxed text-neutral-500">
+									“{finding.quote}”
+								</blockquote>
 							)}
 						</div>
 					</motion.div>
@@ -112,10 +113,10 @@ function FindingRow({
 
 interface RiskTableCardProps {
 	table: RiskTable;
-	onJumpToPage: (page: number) => void;
+	onViewFinding: (finding: Finding) => void;
 }
 
-export function RiskTableCard({ table, onJumpToPage }: RiskTableCardProps) {
+export function RiskTableCard({ table, onViewFinding }: RiskTableCardProps) {
 	const [openId, setOpenId] = useState<string | null>(null);
 	const [filter, setFilter] = useState<Severity | null>(null);
 
@@ -163,7 +164,7 @@ export function RiskTableCard({ table, onJumpToPage }: RiskTableCardProps) {
 						key={finding.id}
 						finding={finding}
 						open={openId === finding.id}
-						onJumpToPage={onJumpToPage}
+						onViewFinding={onViewFinding}
 						onToggle={() =>
 							setOpenId((current) =>
 								current === finding.id ? null : finding.id,

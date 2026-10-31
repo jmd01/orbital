@@ -59,12 +59,21 @@ export interface Document {
 	uploaded_at: string;
 }
 
-// A request to show a page of a document. The nonce makes repeat requests for the same page
+// A request to show a finding on its page of a document. The nonce makes repeat requests for the same page
 // count as new ones, e.g. after the reader has paged away.
 export interface PageJump {
 	documentId: string;
 	page: number;
+	findingId: string; // whose quote to highlight on that page
 	nonce: number;
+}
+
+// A rectangle on a page as fractions of its size, so it scales to any rendered width.
+export interface HighlightBox {
+	x0: number;
+	y0: number;
+	x1: number;
+	y1: number;
 }
 
 export interface ConversationDetail extends Conversation {

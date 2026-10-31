@@ -12,6 +12,7 @@ from pydantic import BaseModel
 # document.py writes extracted text as "--- Page N ---\n<text>" blocks.
 PAGE_MARKER = re.compile(r"--- Page (\d+) ---\n")
 ANCHOR_WORDS = 6
+ELLIPSIS = re.compile(r"\.\.\.|\u2026")  # the model joins fragments with "..."
 
 
 class QuoteMatch(BaseModel):
@@ -45,7 +46,7 @@ def locate_quote(quote: str, pages: dict[int, str]) -> QuoteMatch | None:
     for number, text in pages.items():
         if needle in text:
             return QuoteMatch(page=number, exact=True)
-    opening = re.split(r"\.\.\.|\u2026", needle)[0]  # the model joins fragments with "..."
+    opening = ELLIPSIS.split(needle)[0]
     anchor = " ".join(opening.split()[:ANCHOR_WORDS])
     for number, text in pages.items():
         if anchor in text:

@@ -2,15 +2,15 @@ import { motion } from "framer-motion";
 import { Streamdown } from "streamdown";
 import "streamdown/styles.css";
 import { cn } from "../lib/utils";
-import type { Message, RiskTable } from "../types";
+import type { Finding, Message, RiskTable } from "../types";
 import { RiskTableCard, RiskTableSkeleton } from "./RiskTable";
 
 interface MessageBubbleProps {
 	message: Message;
-	onJumpToPage: (page: number) => void;
+	onViewFinding: (finding: Finding) => void;
 }
 
-export function MessageBubble({ message, onJumpToPage }: MessageBubbleProps) {
+export function MessageBubble({ message, onViewFinding }: MessageBubbleProps) {
 	if (message.role === "system") {
 		return (
 			<motion.div
@@ -56,7 +56,7 @@ export function MessageBubble({ message, onJumpToPage }: MessageBubbleProps) {
 					<RiskTableCard
 						key={part.data.review_id}
 						table={part.data}
-						onJumpToPage={onJumpToPage}
+						onViewFinding={onViewFinding}
 					/>
 				))}
 				<div className="prose">
@@ -77,14 +77,14 @@ interface StreamingBubbleProps {
 	content: string;
 	riskTable: RiskTable | null;
 	reviewing: boolean;
-	onJumpToPage: (page: number) => void;
+	onViewFinding: (finding: Finding) => void;
 }
 
 export function StreamingBubble({
 	content,
 	riskTable,
 	reviewing,
-	onJumpToPage,
+	onViewFinding,
 }: StreamingBubbleProps) {
 	return (
 		<div className="py-1.5">
@@ -92,7 +92,7 @@ export function StreamingBubble({
 				className={cn("min-w-0", !(riskTable || reviewing) && "max-w-[80%]")}
 			>
 				{riskTable ? (
-					<RiskTableCard table={riskTable} onJumpToPage={onJumpToPage} />
+					<RiskTableCard table={riskTable} onViewFinding={onViewFinding} />
 				) : (
 					reviewing && <RiskTableSkeleton />
 				)}

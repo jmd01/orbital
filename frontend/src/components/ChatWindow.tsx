@@ -1,6 +1,6 @@
 import { Loader2 } from "lucide-react";
 import { useEffect, useRef } from "react";
-import type { Message, RiskTable } from "../types";
+import type { Finding, Message, RiskTable } from "../types";
 import { ChatInput } from "./ChatInput";
 import { EmptyState } from "./EmptyState";
 import { MessageBubble, StreamingBubble } from "./MessageBubble";
@@ -17,7 +17,7 @@ interface ChatWindowProps {
 	conversationId: string | null;
 	onSend: (content: string) => void;
 	onUpload: (file: File) => void;
-	onJumpToPage: (page: number) => void;
+	onViewFinding: (finding: Finding) => void;
 }
 
 export function ChatWindow({
@@ -32,7 +32,7 @@ export function ChatWindow({
 	conversationId,
 	onSend,
 	onUpload,
-	onJumpToPage,
+	onViewFinding,
 }: ChatWindowProps) {
 	const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -106,7 +106,7 @@ export function ChatWindow({
 						<MessageBubble
 							key={message.id}
 							message={message}
-							onJumpToPage={onJumpToPage}
+							onViewFinding={onViewFinding}
 						/>
 					))}
 					{streaming && (
@@ -114,7 +114,7 @@ export function ChatWindow({
 							content={streamingContent}
 							riskTable={streamingRiskTable}
 							reviewing={reviewing}
-							onJumpToPage={onJumpToPage}
+							onViewFinding={onViewFinding}
 						/>
 					)}
 				</div>

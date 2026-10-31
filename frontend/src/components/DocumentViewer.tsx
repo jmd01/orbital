@@ -4,8 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Document as PDFDocument, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
-import { getDocumentUrl } from "../lib/api";
-import type { Document, PageJump } from "../types";
+import { fetchHighlights, getDocumentUrl } from "../lib/api";
+import type { Document, HighlightBox, PageJump } from "../types";
 import { Button } from "./ui/button";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -31,15 +31,49 @@ export function DocumentViewer({ document, pageJump }: DocumentViewerProps) {
 	const [dragging, setDragging] = useState(false);
 	const containerRef = useRef<HTMLDivElement>(null);
 	const scrollRef = useRef<HTMLDivElement>(null);
+	const firstHighlightRef = useRef<HTMLDivElement>(null);
+	const [highlights, setHighlights] = useState<HighlightBox[]>([]);
+	const [renderedPage, setRenderedPage] = useState<number | null>(null);
 
-	// Show the requested page when a jump is asked for this document.
+	// Show the requested page, and fetch where the finding's quote sits on it.
 	const documentId = document?.id;
 	useEffect(() => {
-		if (pageJump && pageJump.documentId === documentId) {
-			setCurrentPage(pageJump.page);
-			scrollRef.current?.scrollTo({ top: 0 });
-		}
+		setHighlights([]);
+		setRenderedPage(null);
+		if (!pageJump || pageJump.documentId !== documentId) return;
+
+		setCurrentPage(pageJump.page);
+		scrollRef.current?.scrollTo({ top: 0 });
+
+		let cancelled = false;
+		fetchHighlights(pageJump.findingId)
+			.then((boxes) => {
+				if (!cancelled) setHighlights(boxes);
+			})
+			.catch(() => {
+				if (!cancelled) setHighlights([]);
+			});
+		return () => {
+			cancelled = true;
+		};
 	}, [pageJump, documentId]);
+
+	// Draw the highlight only on the page it belongs to, once that page has rendered.
+	const showHighlights =
+		pageJump !== null &&
+		currentPage === pageJump.page &&
+		renderedPage === currentPage &&
+		highlights.length > 0;
+
+	// Scroll the highlight into view once, when it appears.
+	useEffect(() => {
+		if (showHighlights) {
+			firstHighlightRef.current?.scrollIntoView({
+				block: "center",
+				behavior: "smooth",
+			});
+		}
+	}, [showHighlights]);
 
 	const handleMouseDown = useCallback(
 		(e: React.MouseEvent) => {
@@ -144,15 +178,38 @@ export function DocumentViewer({ document, pageJump }: DocumentViewerProps) {
 							animate={{ opacity: 1 }}
 							transition={{ duration: 0.25 }}
 						>
-							<Page
-								pageNumber={currentPage}
-								width={pdfPageWidth}
-								loading={
-									<div className="flex items-center justify-center py-12">
-										<Loader2 className="h-5 w-5 animate-spin text-neutral-300" />
+							<div className="relative">
+								<Page
+									pageNumber={currentPage}
+									width={pdfPageWidth}
+									onRenderSuccess={() => setRenderedPage(currentPage)}
+									loading={
+										<div className="flex items-center justify-center py-12">
+											<Loader2 className="h-5 w-5 animate-spin text-neutral-300" />
+										</div>
+									}
+								/>
+								{showHighlights && (
+									<div className="pointer-events-none absolute inset-0">
+										{highlights.map((box, index) => (
+											<motion.div
+												key={`${box.x0}-${box.y0}`}
+												ref={index === 0 ? firstHighlightRef : undefined}
+												initial={{ opacity: 0 }}
+												animate={{ opacity: 1 }}
+												transition={{ duration: 0.3 }}
+												className="absolute rounded-sm bg-yellow-300/50 mix-blend-multiply"
+												style={{
+													left: `${box.x0 * 100}%`,
+													top: `${box.y0 * 100}%`,
+													width: `${(box.x1 - box.x0) * 100}%`,
+													height: `${(box.y1 - box.y0) * 100}%`,
+												}}
+											/>
+										))}
 									</div>
-								}
-							/>
+								)}
+							</div>
 						</motion.div>
 					)}
 				</PDFDocument>

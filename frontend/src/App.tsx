@@ -6,7 +6,7 @@ import { TooltipProvider } from "./components/ui/tooltip";
 import { useConversations } from "./hooks/use-conversations";
 import { useDocument } from "./hooks/use-document";
 import { useMessages } from "./hooks/use-messages";
-import type { PageJump } from "./types";
+import type { Finding, PageJump } from "./types";
 
 export default function App() {
 	const {
@@ -38,10 +38,15 @@ export default function App() {
 
 	const [pageJump, setPageJump] = useState<PageJump | null>(null);
 
-	const handleJumpToPage = useCallback(
-		(page: number) => {
-			if (document) {
-				setPageJump({ documentId: document.id, page, nonce: Date.now() });
+	const handleViewFinding = useCallback(
+		(finding: Finding) => {
+			if (document && finding.page !== null) {
+				setPageJump({
+					documentId: document.id,
+					page: finding.page,
+					findingId: finding.id,
+					nonce: Date.now(),
+				});
 			}
 		},
 		[document],
@@ -94,7 +99,7 @@ export default function App() {
 					conversationId={selectedId}
 					onSend={handleSend}
 					onUpload={handleUpload}
-					onJumpToPage={handleJumpToPage}
+					onViewFinding={handleViewFinding}
 				/>
 
 				<DocumentViewer document={document} pageJump={pageJump} />
