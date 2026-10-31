@@ -3,9 +3,13 @@ from __future__ import annotations
 import re
 from collections.abc import AsyncIterator
 
+import structlog
 from pydantic_ai import Agent
 
 from takehome.config import settings  # noqa: F401 — triggers ANTHROPIC_API_KEY export
+from takehome.services.risk import RiskInput, RiskToolResult, summarise_risks
+
+logger = structlog.get_logger()
 
 agent = Agent(
     "anthropic:claude-haiku-4-5-20251001",
@@ -17,9 +21,24 @@ agent = Agent(
         "- When referencing specific parts of the document, cite the relevant section or clause.\n"
         "- If the answer is not in the document, say so clearly. Do not fabricate information.\n"
         "- Be concise and precise. Lawyers value accuracy over verbosity.\n"
-        "- When you reference specific content, mention the section, clause, or page."
+        "- When you reference specific content, mention the section, clause, or page.\n"
+        "- When the user asks for a risk review (or to list, assess or flag risks), call the "
+        "present_risks tool exactly once with every material risk you find, instead of writing "
+        "the list out. The tool displays the table to the user. Afterwards reply with a brief "
+        "summary of the headline findings; do not repeat the table."
     ),
 )
+
+
+@agent.tool_plain
+def present_risks(risks: list[RiskInput]) -> RiskToolResult:
+    """Present the risks found in the document to the user as a table.
+
+    Call once, with all material risks. Each quote must be copied verbatim from the document.
+    """
+    # Stage 1 stub: no validation or persistence yet, just prove the model calls the tool.
+    logger.info("present_risks called", risk_count=len(risks), titles=[r.title for r in risks])
+    return summarise_risks(risks)
 
 
 async def generate_title(user_message: str) -> str:
