@@ -53,8 +53,12 @@ one response. Stored and client shapes are separate Pydantic models in `services
 
 ## Quality layers (applied in this order)
 1. Structured output via Pydantic schema.
-2. Deterministic quote location: normalise whitespace / hyphenation / quotes, exact match per page,
-   fuzzy fallback (`rapidfuzz`, ~85). Page comes from the match. No match -> `unverified`.
+2. Deterministic quote location (`services/quote.py`): normalise whitespace / hyphenation / quotes,
+   exact match per page, falling back to the quote's first six words (stopping at a `...`). The
+   page comes from the match; no match -> no page and no jump link. Exact and anchor matches are
+   treated the same in the UI. `rapidfuzz` was tried on the saved eval quotes: it agreed on 127 of
+   129 and needed a lower threshold (~70) to cover the anchor cases, so it was left out for now.
+   It remains an option as a third fallback.
 3. Severity counts computed in code (never asked of the model).
 4. Stretch: stronger-model validator per finding on quote + surrounding context, rejections fed back
    to the agent (`ModelRetry`).
@@ -69,7 +73,7 @@ the 4 misses were tidied/completed quotes of real content, not inventions.
 4. `findings` table, `messages.parts`, migration, schemas, hydration. *Survives refresh.*
 5. Frontend plumbing: types, `use-messages.ts` branch. *Payload visible in console.*
 6. `RiskTable` component (table -> chips, expandable rows, filters).
-7. Quality: `locate_quote`, fuzzy fallback, verified/unverified badge.
+7. Quality: `locate_quote` fills `Finding.page` (exact, else first-six-words); no badge.
 8. Stretch items (jump-to-page, validator, `ask_user`, findings panel, multi-document).
 9. Tests, agreed one by one before any are written (see below).
 10. If time allows: compare models (e.g. Haiku vs a stronger model) with `evals/risk_eval.py`.

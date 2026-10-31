@@ -42,6 +42,7 @@ from pydantic import BaseModel  # noqa: E402
 from pydantic_ai.messages import ToolCallPart  # noqa: E402
 
 from takehome.services.llm import ChatDeps, agent  # noqa: E402
+from takehome.services.quote import locate_quote, split_pages  # noqa: E402
 from takehome.services.risk import (  # noqa: E402
     FindingOut,
     RiskInput,
@@ -127,35 +128,29 @@ def raw_page_texts(path: Path) -> list[str]:
         return [str(page.get_text()) for page in doc]  # pyright: ignore
 
 
-def norm(s: str) -> str:
-    """Collapse whitespace, hyphenated line breaks and curly quotes so PDF layout can't cause misses."""
-    s = s.replace("’", "'").replace("‘", "'").replace("“", '"').replace("”", '"')
-    s = re.sub(r"-\s*\n\s*", "", s)
-    return re.sub(r"\s+", " ", s).strip().lower()
-
-
-def build_prompt(path: Path) -> str:
-    """Same shape as chat_with_document(): page-marked document text, then the user message."""
-    pages = [f"--- Page {i} ---\n{text}" for i, text in enumerate(raw_page_texts(path), start=1)]
-    return (
-        "The following is the content of the document being discussed:\n\n"
-        f"<document>\n{chr(10).join(pages)}\n</document>\n\nUser: {REQUEST}"
+def extracted_text(path: Path) -> str:
+    """Same format document.py stores: page-marked text, blank pages skipped."""
+    return "\n\n".join(
+        f"--- Page {i} ---\n{text}"
+        for i, text in enumerate(raw_page_texts(path), start=1)
+        if text.strip()
     )
 
 
-def locate(quote: str, pages: list[str]) -> tuple[MatchKind, int | None]:
-    """exact: whole quote found. anchor: its first six words found. none: not located."""
-    q = norm(quote)
-    if not q:
+def build_prompt(path: Path) -> str:
+    """Same shape as chat_with_document(): the document text, then the user message."""
+    return (
+        "The following is the content of the document being discussed:\n\n"
+        f"<document>\n{extracted_text(path)}\n</document>\n\nUser: {REQUEST}"
+    )
+
+
+def locate(quote: str, pages: dict[int, str]) -> tuple[MatchKind, int | None]:
+    """The app's own locator; the exact / anchor split is only kept for reporting."""
+    match = locate_quote(quote, pages)
+    if match is None:
         return "none", None
-    for i, page in enumerate(pages, start=1):
-        if q in page:
-            return "exact", i
-    anchor = " ".join(q.split()[:6])
-    for i, page in enumerate(pages, start=1):
-        if anchor in page:
-            return "anchor", i
-    return "none", None
+    return ("exact" if match.exact else "anchor"), match.page
 
 
 NUMBER_WORDS = {
@@ -183,7 +178,7 @@ def stated_counts(text: str) -> dict[str, int]:
     return found
 
 
-async def run_once(path: Path, pages: list[str], sem: asyncio.Semaphore) -> RunResult:
+async def run_once(path: Path, pages: dict[int, str], sem: asyncio.Semaphore) -> RunResult:
     async with sem:
         start = time.monotonic()
         try:
@@ -303,7 +298,7 @@ async def main() -> None:
     sem = asyncio.Semaphore(CONCURRENCY)
 
     async def do_doc(path: Path) -> tuple[str, list[RunResult]]:
-        pages = [norm(text) for text in raw_page_texts(path)]
+        pages = split_pages(extracted_text(path))
         runs = await asyncio.gather(*(run_once(path, pages, sem) for _ in range(runs_per_doc)))
         return path.name, list(runs)
 

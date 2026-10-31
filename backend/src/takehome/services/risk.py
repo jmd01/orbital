@@ -7,7 +7,8 @@ from pydantic import BaseModel, ConfigDict, Field
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from takehome.db.models import Finding
+from takehome.db.models import Document, Finding
+from takehome.services.quote import locate_quote, split_pages
 
 Severity = Literal["high", "medium", "low"]
 
@@ -93,8 +94,14 @@ def summarise_risks(risks: list[RiskInput]) -> RiskToolResult:
 async def save_review(
     session: AsyncSession, conversation_id: str, document_id: str, risks: list[RiskInput]
 ) -> RiskTable:
-    """Store a review's risks as findings under a new review_id."""
+    """Store a review's risks as findings under a new review_id.
+
+    Each finding's page is found by locating its quote in the document text; it is None when
+    the quote can't be located.
+    """
     review_id = uuid.uuid4().hex[:16]
+    document = await session.get(Document, document_id)
+    pages = split_pages(document.extracted_text) if document and document.extracted_text else {}
     rows = [
         Finding(
             review_id=review_id,
@@ -106,6 +113,7 @@ async def save_review(
             category=risk.category,
             summary=risk.summary,
             quote=risk.quote,
+            page=match.page if (match := locate_quote(risk.quote, pages)) else None,
         )
         for position, risk in enumerate(risks)
     ]
