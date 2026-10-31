@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from collections.abc import AsyncIterator
 from datetime import datetime
+from typing import Literal
 
 import structlog
 from fastapi import APIRouter, Depends, HTTPException
@@ -21,6 +22,7 @@ from takehome.services.llm import (
     count_sources_cited,
     generate_title,
 )
+from takehome.services.risk import RiskTable
 
 logger = structlog.get_logger()
 
@@ -45,6 +47,13 @@ class MessageOut(BaseModel):
 
 class MessageCreate(BaseModel):
     content: str
+
+
+class RiskTableEvent(BaseModel):
+    """SSE event carrying the validated risk table, sent once per risk review."""
+
+    type: Literal["risk_table"] = "risk_table"
+    table: RiskTable
 
 
 # --------------------------------------------------------------------------- #
@@ -148,8 +157,7 @@ async def send_message(
                     event_data = json.dumps({"type": "content", "content": chunk.text})
                     yield f"data: {event_data}\n\n"
                 else:
-                    # Stage 3 will emit this to the frontend; for now just prove it arrives.
-                    logger.info("Risk table received", risk_count=len(chunk.risks))
+                    yield f"data: {RiskTableEvent(table=chunk).model_dump_json()}\n\n"
 
         except Exception:
             logger.exception(
