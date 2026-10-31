@@ -311,7 +311,7 @@ async def main() -> None:
         model=str(agent.model.model_name) if agent.model else "unknown",  # pyright: ignore
         runs_per_doc=runs_per_doc,
         commit=git("rev-parse", "--short", "HEAD"),
-        dirty=bool(git("status", "--porcelain")),
+        dirty=bool(git("status", "--porcelain", "--untracked-files=no")),
         llm_hash=hashlib.sha256(LLM_FILE.read_bytes()).hexdigest()[:8],
         request=REQUEST,
     )
