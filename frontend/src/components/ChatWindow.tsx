@@ -1,6 +1,6 @@
 import { Loader2 } from "lucide-react";
 import { useEffect, useRef } from "react";
-import type { Message } from "../types";
+import type { Message, RiskTable } from "../types";
 import { ChatInput } from "./ChatInput";
 import { EmptyState } from "./EmptyState";
 import { MessageBubble, StreamingBubble } from "./MessageBubble";
@@ -11,6 +11,7 @@ interface ChatWindowProps {
 	error: string | null;
 	streaming: boolean;
 	streamingContent: string;
+	streamingRiskTable: RiskTable | null;
 	hasDocument: boolean;
 	conversationId: string | null;
 	onSend: (content: string) => void;
@@ -23,6 +24,7 @@ export function ChatWindow({
 	error,
 	streaming,
 	streamingContent,
+	streamingRiskTable,
 	hasDocument,
 	conversationId,
 	onSend,
@@ -99,7 +101,12 @@ export function ChatWindow({
 					{messages.map((message) => (
 						<MessageBubble key={message.id} message={message} />
 					))}
-					{streaming && <StreamingBubble content={streamingContent} />}
+					{streaming && (
+						<StreamingBubble
+							content={streamingContent}
+							riskTable={streamingRiskTable}
+						/>
+					)}
 				</div>
 			</div>
 

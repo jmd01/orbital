@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
-import { Bot } from "lucide-react";
 import { Streamdown } from "streamdown";
 import "streamdown/styles.css";
-import type { Message } from "../types";
+import { cn } from "../lib/utils";
+import type { Message, RiskTable } from "../types";
+import { RiskTableCard } from "./RiskTable";
 
 interface MessageBubbleProps {
 	message: Message;
@@ -45,12 +46,14 @@ export function MessageBubble({ message }: MessageBubbleProps) {
 			initial={{ opacity: 0, y: 8 }}
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ duration: 0.2 }}
-			className="flex gap-3 py-1.5"
+			className="py-1.5"
 		>
-			<div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-neutral-900">
-				<Bot className="h-4 w-4 text-white" />
-			</div>
-			<div className="min-w-0 max-w-[80%]">
+			<div
+				className={cn("min-w-0", message.parts.length === 0 && "max-w-[80%]")}
+			>
+				{message.parts.map((part) => (
+					<RiskTableCard key={part.data.review_id} table={part.data} />
+				))}
 				<div className="prose">
 					<Streamdown>{message.content}</Streamdown>
 				</div>
@@ -67,15 +70,14 @@ export function MessageBubble({ message }: MessageBubbleProps) {
 
 interface StreamingBubbleProps {
 	content: string;
+	riskTable: RiskTable | null;
 }
 
-export function StreamingBubble({ content }: StreamingBubbleProps) {
+export function StreamingBubble({ content, riskTable }: StreamingBubbleProps) {
 	return (
-		<div className="flex gap-3 py-1.5">
-			<div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-neutral-900">
-				<Bot className="h-4 w-4 text-white" />
-			</div>
-			<div className="min-w-0 max-w-[80%]">
+		<div className="py-1.5">
+			<div className={cn("min-w-0", !riskTable && "max-w-[80%]")}>
+				{riskTable && <RiskTableCard table={riskTable} />}
 				{content ? (
 					<div className="prose">
 						<Streamdown mode="streaming">{content}</Streamdown>

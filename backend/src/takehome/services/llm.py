@@ -145,11 +145,14 @@ async def chat_with_document(
 
     deps = ChatDeps(save_review=save if document_id is not None else None)
 
+    wrote_text = False
     async with agent.run_stream_events(full_prompt, deps=deps) as events:
         async for event in events:
             if isinstance(event, PartStartEvent) and isinstance(event.part, TextPart):
-                if event.part.content:
-                    yield TextChunk(event.part.content)
+                # Text resuming after a tool call is a new paragraph, not a continuation.
+                separator = "\n\n" if wrote_text else ""
+                wrote_text = True
+                yield TextChunk(separator + event.part.content)
             elif isinstance(event, PartDeltaEvent) and isinstance(event.delta, TextPartDelta):
                 yield TextChunk(event.delta.content_delta)
             elif isinstance(event, FunctionToolResultEvent) and isinstance(
