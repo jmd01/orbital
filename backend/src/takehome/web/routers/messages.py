@@ -17,6 +17,7 @@ from takehome.db.session import get_session
 from takehome.services.conversation import get_conversation, update_conversation
 from takehome.services.document import get_document_for_conversation
 from takehome.services.llm import (
+    ReviewStarted,
     TextChunk,
     chat_with_document,
     count_sources_cited,
@@ -54,6 +55,13 @@ class MessageOut(BaseModel):
 
 class MessageCreate(BaseModel):
     content: str
+
+
+class StatusEvent(BaseModel):
+    """SSE event telling the client the reply is in a slow step, so it can show progress."""
+
+    type: Literal["status"] = "status"
+    status: Literal["reviewing"] = "reviewing"
 
 
 class RiskTableEvent(BaseModel):
@@ -167,6 +175,8 @@ async def send_message(
                     full_response += chunk.text
                     event_data = json.dumps({"type": "content", "content": chunk.text})
                     yield f"data: {event_data}\n\n"
+                elif isinstance(chunk, ReviewStarted):
+                    yield f"data: {StatusEvent().model_dump_json()}\n\n"
                 else:
                     risk_table = chunk
                     yield f"data: {RiskTableEvent(table=chunk).model_dump_json()}\n\n"

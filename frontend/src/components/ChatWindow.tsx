@@ -12,6 +12,7 @@ interface ChatWindowProps {
 	streaming: boolean;
 	streamingContent: string;
 	streamingRiskTable: RiskTable | null;
+	reviewing: boolean;
 	hasDocument: boolean;
 	conversationId: string | null;
 	onSend: (content: string) => void;
@@ -25,6 +26,7 @@ export function ChatWindow({
 	streaming,
 	streamingContent,
 	streamingRiskTable,
+	reviewing,
 	hasDocument,
 	conversationId,
 	onSend,
@@ -105,6 +107,7 @@ export function ChatWindow({
 						<StreamingBubble
 							content={streamingContent}
 							riskTable={streamingRiskTable}
+							reviewing={reviewing}
 						/>
 					)}
 				</div>

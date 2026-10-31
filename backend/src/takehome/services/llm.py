@@ -12,6 +12,7 @@ from pydantic_ai.messages import (
     PartStartEvent,
     TextPart,
     TextPartDelta,
+    ToolCallPart,
     ToolReturn,
 )
 
@@ -29,7 +30,12 @@ class TextChunk:
     text: str
 
 
-ChatEvent = TextChunk | RiskTable
+@dataclass
+class ReviewStarted:
+    """The model has begun writing out a risk review, which is the slow step."""
+
+
+ChatEvent = TextChunk | RiskTable | ReviewStarted
 
 SaveReview = Callable[[list[RiskInput]], Awaitable[RiskTable]]
 
@@ -153,6 +159,12 @@ async def chat_with_document(
                 separator = "\n\n" if wrote_text else ""
                 wrote_text = True
                 yield TextChunk(separator + event.part.content)
+            elif (
+                isinstance(event, PartStartEvent)
+                and isinstance(event.part, ToolCallPart)
+                and event.part.tool_name == "present_risks"
+            ):
+                yield ReviewStarted()
             elif isinstance(event, PartDeltaEvent) and isinstance(event.delta, TextPartDelta):
                 yield TextChunk(event.delta.content_delta)
             elif isinstance(event, FunctionToolResultEvent) and isinstance(

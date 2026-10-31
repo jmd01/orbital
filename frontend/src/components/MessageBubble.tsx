@@ -3,7 +3,7 @@ import { Streamdown } from "streamdown";
 import "streamdown/styles.css";
 import { cn } from "../lib/utils";
 import type { Message, RiskTable } from "../types";
-import { RiskTableCard } from "./RiskTable";
+import { RiskTableCard, RiskTableSkeleton } from "./RiskTable";
 
 interface MessageBubbleProps {
 	message: Message;
@@ -71,18 +71,29 @@ export function MessageBubble({ message }: MessageBubbleProps) {
 interface StreamingBubbleProps {
 	content: string;
 	riskTable: RiskTable | null;
+	reviewing: boolean;
 }
 
-export function StreamingBubble({ content, riskTable }: StreamingBubbleProps) {
+export function StreamingBubble({
+	content,
+	riskTable,
+	reviewing,
+}: StreamingBubbleProps) {
 	return (
 		<div className="py-1.5">
-			<div className={cn("min-w-0", !riskTable && "max-w-[80%]")}>
-				{riskTable && <RiskTableCard table={riskTable} />}
+			<div
+				className={cn("min-w-0", !(riskTable || reviewing) && "max-w-[80%]")}
+			>
+				{riskTable ? (
+					<RiskTableCard table={riskTable} />
+				) : (
+					reviewing && <RiskTableSkeleton />
+				)}
 				{content ? (
 					<div className="prose">
 						<Streamdown mode="streaming">{content}</Streamdown>
 					</div>
-				) : (
+				) : !reviewing ? (
 					<div className="flex items-center gap-1 py-2">
 						<span className="h-1.5 w-1.5 animate-pulse rounded-full bg-neutral-400" />
 						<span
@@ -94,7 +105,7 @@ export function StreamingBubble({ content, riskTable }: StreamingBubbleProps) {
 							style={{ animationDelay: "0.3s" }}
 						/>
 					</div>
-				)}
+				) : null}
 				<span className="inline-block h-4 w-0.5 animate-pulse bg-neutral-400" />
 			</div>
 		</div>

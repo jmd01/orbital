@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "../lib/utils";
 import type { Finding, RiskTable, Severity } from "../types";
@@ -157,5 +157,41 @@ export function RiskTableCard({ table }: RiskTableCardProps) {
 				))}
 			</ul>
 		</div>
+	);
+}
+
+const SKELETON_ROWS = [
+	{ id: "a", title: "w-4/5" },
+	{ id: "b", title: "w-3/5" },
+	{ id: "c", title: "w-2/3" },
+];
+
+// Shown while the model is still writing out its findings, in the shape of the table to come.
+export function RiskTableSkeleton() {
+	return (
+		<output className="my-2 block overflow-hidden rounded-xl border border-neutral-200 bg-white">
+			<div className="flex items-center gap-2 border-b border-neutral-100 bg-neutral-50 px-3 py-2">
+				<Loader2 className="h-3.5 w-3.5 animate-spin text-neutral-400" />
+				<span className="text-xs font-medium text-neutral-500">
+					Reviewing the document for risks…
+				</span>
+			</div>
+			<ul>
+				{SKELETON_ROWS.map((row) => (
+					<li
+						key={row.id}
+						className="flex items-center gap-3 border-t border-neutral-100 px-3 py-3 first:border-t-0"
+					>
+						<span className="h-5 w-[4.5rem] flex-shrink-0 animate-pulse rounded-full bg-neutral-100" />
+						<span
+							className={cn(
+								"h-3 animate-pulse rounded bg-neutral-100",
+								row.title,
+							)}
+						/>
+					</li>
+				))}
+			</ul>
+		</output>
 	);
 }

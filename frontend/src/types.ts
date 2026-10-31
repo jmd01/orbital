@@ -46,6 +46,7 @@ export interface Message {
 // Server-sent events on the message stream, discriminated by `type`.
 export type StreamEvent =
 	| { type: "content"; content: string }
+	| { type: "status"; status: "reviewing" }
 	| { type: "risk_table"; table: RiskTable }
 	| { type: "message"; message: Message }
 	| { type: "done"; sources_cited: number; message_id: string };

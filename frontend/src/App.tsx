@@ -25,6 +25,7 @@ export default function App() {
 		streaming,
 		streamingContent,
 		streamingRiskTable,
+		reviewing,
 		send,
 	} = useMessages(selectedId);
 
@@ -76,6 +77,7 @@ export default function App() {
 					streaming={streaming}
 					streamingContent={streamingContent}
 					streamingRiskTable={streamingRiskTable}
+					reviewing={reviewing}
 					hasDocument={!!document}
 					conversationId={selectedId}
 					onSend={handleSend}

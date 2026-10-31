@@ -10,6 +10,7 @@ export function useMessages(conversationId: string | null) {
 	const [streamingContent, setStreamingContent] = useState("");
 	const [streamingRiskTable, setStreamingRiskTable] =
 		useState<RiskTable | null>(null);
+	const [reviewing, setReviewing] = useState(false);
 	const abortRef = useRef<AbortController | null>(null);
 
 	const refresh = useCallback(async () => {
@@ -56,6 +57,7 @@ export function useMessages(conversationId: string | null) {
 			setStreaming(true);
 			setStreamingContent("");
 			setStreamingRiskTable(null);
+			setReviewing(false);
 			setError(null);
 
 			try {
@@ -94,7 +96,11 @@ export function useMessages(conversationId: string | null) {
 									accumulated += event.content;
 									setStreamingContent(accumulated);
 									break;
+								case "status":
+									setReviewing(true);
+									break;
 								case "risk_table":
+									setReviewing(false);
 									setStreamingRiskTable(event.table);
 									break;
 								case "message":
@@ -136,6 +142,7 @@ export function useMessages(conversationId: string | null) {
 				setStreaming(false);
 				setStreamingContent("");
 				setStreamingRiskTable(null);
+				setReviewing(false);
 			}
 		},
 		[conversationId, streaming],
@@ -148,6 +155,7 @@ export function useMessages(conversationId: string | null) {
 		streaming,
 		streamingContent,
 		streamingRiskTable,
+		reviewing,
 		send,
 		refresh,
 	};
