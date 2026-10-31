@@ -30,12 +30,15 @@ user: "run a risk review"
 rich output. New rich outputs are additive: one union member, one component.
 
 New `findings` table:
-`id, review_id, document_id, conversation_id, severity, category, title, summary, quote, page,
-verification_status, review_status, created_at`.
+`id, review_id, conversation_id, document_id, position, title, severity, category, summary, quote,
+page, created_at`. `position` keeps display order. `page` is nullable: it is derived in code from
+the quote, never supplied by the model (stage 7). `verification_status` / `review_status` are
+deferred until something reads them.
 `review_id` is a generated UUID, not a table. "Latest review for a document" = findings of the
-newest `review_id` for that `document_id`. The message part holds `{review_id, counts}`; the
-backend hydrates findings on `GET /messages` and in the stream event, so the chat renders from one
-response.
+newest `review_id` for that `document_id`. The stored message part is a reference
+`{type, version, data:{review_id, counts}}`; the API hydrates it into the full table
+(`RiskTablePart`) on `GET /messages` and in the stream's `message` event, so the chat renders from
+one response. Stored and client shapes are separate Pydantic models in `services/risk.py`.
 
 ## Tool contract (`present_risks`)
 - **Input (from model):** `risks: [{title, severity, category, summary, quote}]`. No page number:
@@ -43,7 +46,10 @@ response.
   derived deterministically.
 - **Returned to model:** `{review_id, accepted, counts, top[], rejected[{title, reason}]}`.
   Compact on purpose: enough for a specific summary and a retry, no table data to retype.
-- **To the frontend:** the backend, not the model, emits the validated table as a `risk_table` part.
+- **To the frontend:** the backend, not the model, emits the saved table. The tool returns a
+  `ToolReturn` whose `metadata` (a typed `RiskTable`) the stream forwards as a `risk_table` event.
+- **Saving:** the tool gets a typed `save_review` function through the agent's deps (`ChatDeps`), so
+  it never touches the database directly and evals can pass an in-memory fake.
 
 ## Quality layers (applied in this order)
 1. Structured output via Pydantic schema.

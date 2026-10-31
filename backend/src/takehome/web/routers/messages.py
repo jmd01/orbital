@@ -22,7 +22,13 @@ from takehome.services.llm import (
     count_sources_cited,
     generate_title,
 )
-from takehome.services.risk import RiskTable
+from takehome.services.risk import (
+    RiskTable,
+    RiskTablePart,
+    StoredRiskTableData,
+    StoredRiskTablePart,
+    hydrate_parts,
+)
 
 logger = structlog.get_logger()
 
@@ -40,6 +46,7 @@ class MessageOut(BaseModel):
     role: str
     content: str
     sources_cited: int
+    parts: list[RiskTablePart] = []
     created_at: datetime
 
     model_config = {"from_attributes": True}
@@ -90,6 +97,7 @@ async def list_messages(
             role=m.role,
             content=m.content,
             sources_cited=m.sources_cited,
+            parts=await hydrate_parts(session, m.parts),
             created_at=m.created_at,
         )
         for m in messages
@@ -145,6 +153,7 @@ async def send_message(
     async def event_stream() -> AsyncIterator[str]:
         """Generate SSE events with the streamed LLM response."""
         full_response = ""
+        risk_table: RiskTable | None = None
 
         try:
             async for chunk in chat_with_document(
@@ -159,6 +168,7 @@ async def send_message(
                     event_data = json.dumps({"type": "content", "content": chunk.text})
                     yield f"data: {event_data}\n\n"
                 else:
+                    risk_table = chunk
                     yield f"data: {RiskTableEvent(table=chunk).model_dump_json()}\n\n"
 
         except Exception:
@@ -176,6 +186,20 @@ async def send_message(
         # Count sources cited in the full response
         sources = count_sources_cited(full_response)
 
+        # A risk table is stored as a reference to its findings; clients get it hydrated.
+        stored_parts = (
+            [
+                StoredRiskTablePart(
+                    data=StoredRiskTableData(
+                        review_id=risk_table.review_id, counts=risk_table.counts
+                    )
+                ).model_dump(mode="json")
+            ]
+            if risk_table is not None
+            else []
+        )
+        client_parts = [RiskTablePart(data=risk_table)] if risk_table is not None else []
+
         # Save the assistant message to the database.
         # We need a fresh session since the outer one may have been closed.
         from takehome.db.session import async_session as session_factory
@@ -186,6 +210,7 @@ async def send_message(
                 role="assistant",
                 content=full_response,
                 sources_cited=sources,
+                parts=stored_parts,
             )
             save_session.add(assistant_message)
             await save_session.commit()
@@ -217,6 +242,7 @@ async def send_message(
                         "role": assistant_message.role,
                         "content": assistant_message.content,
                         "sources_cited": assistant_message.sources_cited,
+                        "parts": [part.model_dump(mode="json") for part in client_parts],
                         "created_at": assistant_message.created_at.isoformat(),
                     },
                 }
