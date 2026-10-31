@@ -25,8 +25,10 @@ class RiskInput(BaseModel):
     category: str = Field(description="Short topic label, e.g. 'Rent', 'Title', 'Environmental'")
     summary: str = Field(description="One or two sentences on why this matters")
     quote: str = Field(
-        description="Verbatim text copied exactly from the document, one sentence or fragment, "
-        "at most 25 words. Do not paraphrase."
+        description="One short passage that evidences this risk: a single sentence or clause, "
+        "ideally 8-20 words, copied character for character from the document, including "
+        "punctuation and quotation marks. Never paraphrase, summarise, join separate passages, "
+        "or add or drop words. If unsure, choose a shorter passage."
     )
 
 
