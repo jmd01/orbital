@@ -16,7 +16,7 @@ from pydantic_ai.messages import (
     ToolReturn,
 )
 
-from takehome.config import settings  # noqa: F401 — triggers ANTHROPIC_API_KEY export
+from takehome.config import settings  # noqa: F401 # pyright: ignore[reportUnusedImport] — triggers ANTHROPIC_API_KEY export
 from takehome.db.session import async_session
 from takehome.services.risk import RiskInput, RiskTable, save_review, summarise_risks
 

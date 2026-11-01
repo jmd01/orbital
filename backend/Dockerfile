@@ -14,6 +14,9 @@ COPY pyproject.toml uv.lock* ./
 # Install dependencies
 RUN uv sync --group dev
 
+# pyright (run by `just check`) bundles a Node runtime that needs libatomic, missing from the slim image
+RUN apt-get update && apt-get install -y --no-install-recommends libatomic1 && rm -rf /var/lib/apt/lists/*
+
 # Copy source (will be overridden by volume mount in dev)
 COPY backend/src ./backend/src
 COPY alembic ./alembic

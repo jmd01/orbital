@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 import uuid
 
-import fitz  # PyMuPDF
+import fitz  # PyMuPDF  # pyright: ignore[reportMissingTypeStubs]
 import structlog
 from fastapi import UploadFile
 from sqlalchemy import select
@@ -68,7 +68,7 @@ async def upload_document(
         pages: list[str] = []
         for page_num in range(page_count):
             page = doc[page_num]
-            text = page.get_text()  # type: ignore[union-attr]
+            text = str(page.get_text())  # pyright: ignore[reportUnknownMemberType, reportUnknownArgumentType]
             if text.strip():
                 pages.append(f"--- Page {page_num + 1} ---\n{text}")
         extracted_text = "\n\n".join(pages)
