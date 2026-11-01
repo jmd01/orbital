@@ -63,7 +63,7 @@ one response. Stored and client shapes are separate Pydantic models in `services
 4. Stretch: stronger-model validator per finding on quote + surrounding context, rejections fed back
    to the agent (`ModelRetry`).
 
-Probe result (`scripts/risk_probe.py`, Haiku 4.5, 3 sample PDFs): 18/22 quotes matched exactly;
+Probe result (one-off script, since replaced by `evals/risk_eval.py`; Haiku 4.5, 3 sample PDFs): 18/22 quotes matched exactly;
 the 4 misses were tidied/completed quotes of real content, not inventions.
 
 ## Build stages (one commit each)
