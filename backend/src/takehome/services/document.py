@@ -28,7 +28,9 @@ async def upload_document(
     # Check if conversation already has a document
     existing = await get_document_for_conversation(session, conversation_id)
     if existing is not None:
-        raise ValueError("Conversation already has a document. Only one document per conversation is allowed.")
+        raise ValueError(
+            "Conversation already has a document. Only one document per conversation is allowed."
+        )
 
     # Validate file type
     if file.content_type not in ("application/pdf", "application/x-pdf"):
