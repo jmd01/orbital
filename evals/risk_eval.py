@@ -47,9 +47,9 @@ sys.path.insert(0, str(ROOT / "backend" / "src"))
 
 import fitz  # noqa: E402  # pyright: ignore[reportMissingTypeStubs]
 from pydantic import BaseModel  # noqa: E402
-from pydantic_ai.messages import ToolCallPart  # noqa: E402
+from pydantic_ai.messages import CachePoint, ToolCallPart  # noqa: E402
 
-from takehome.services.llm import ChatDeps, agent  # noqa: E402
+from takehome.services.llm import ChatDeps, agent, build_prompt  # noqa: E402
 from takehome.services.quote import locate_quote, split_pages  # noqa: E402
 from takehome.services.risk import (  # noqa: E402
     FindingOut,
@@ -88,6 +88,8 @@ class RunResult(BaseModel):
     seconds: float = 0.0
     input_tokens: int = 0
     output_tokens: int = 0
+    cache_write_tokens: int = 0
+    cache_read_tokens: int = 0
     risks: list[LocatedRisk] = []
     final_text: str = ""
 
@@ -149,12 +151,9 @@ def extracted_text(path: Path) -> str:
     )
 
 
-def build_prompt(path: Path) -> str:
-    """Same shape as chat_with_document(): the document text, then the user message."""
-    return (
-        "The following is the content of the document being discussed:\n\n"
-        f"<document>\n{extracted_text(path)}\n</document>\n\nUser: {REQUEST}"
-    )
+def build_eval_prompt(path: Path) -> list[str | CachePoint]:
+    """The app's own prompt for a first message in a new conversation."""
+    return build_prompt(REQUEST, extracted_text(path), [])
 
 
 def locate(quote: str, pages: dict[int, str]) -> tuple[MatchKind, int | None]:
@@ -195,7 +194,7 @@ async def run_once(path: Path, pages: dict[int, str], sem: asyncio.Semaphore) ->
         start = time.monotonic()
         try:
             result = await agent.run(
-                build_prompt(path), deps=ChatDeps(save_review=fake_save_review)
+                build_eval_prompt(path), deps=ChatDeps(save_review=fake_save_review)
             )
         except Exception as exc:  # record failures instead of aborting the whole eval
             return RunResult(error=repr(exc))
@@ -235,6 +234,8 @@ async def run_once(path: Path, pages: dict[int, str], sem: asyncio.Semaphore) ->
         seconds=round(secs, 1),
         input_tokens=usage.input_tokens,
         output_tokens=usage.output_tokens,
+        cache_write_tokens=usage.cache_write_tokens,
+        cache_read_tokens=usage.cache_read_tokens,
         risks=located,
         final_text=text,
     )

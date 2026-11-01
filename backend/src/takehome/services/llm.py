@@ -7,6 +7,7 @@ from dataclasses import dataclass
 import structlog
 from pydantic_ai import Agent, ModelRetry, RunContext
 from pydantic_ai.messages import (
+    CachePoint,
     FunctionToolResultEvent,
     PartDeltaEvent,
     PartStartEvent,
@@ -119,6 +120,49 @@ def review_saver(conversation_id: str, document_id: str) -> SaveReview:
     return save
 
 
+def build_prompt(
+    user_message: str,
+    document_text: str | None,
+    conversation_history: list[dict[str, str]],
+) -> list[str | CachePoint]:
+    """The user prompt: document first, then a cache point, then history and the new message.
+
+    The document is the same on every request in a conversation, and a risk review sends it
+    twice (before and after the tool call), so caching it means repeat reads cost a tenth.
+    """
+    if not document_text:
+        no_document = (
+            "No document has been uploaded yet. If the user asks about a document, "
+            "let them know they need to upload one first.\n"
+        )
+        return [no_document + "\n" + conversation_text(user_message, conversation_history)]
+
+    document = (
+        "The following is the content of the document being discussed:\n\n"
+        "<document>\n"
+        f"{neutralise_document_tags(document_text)}\n"
+        "</document>\n"
+    )
+    return [document, CachePoint(), conversation_text(user_message, conversation_history)]
+
+
+def conversation_text(user_message: str, conversation_history: list[dict[str, str]]) -> str:
+    """Previous turns as plain text, then the current user message."""
+    lines: list[str] = []
+    if conversation_history:
+        lines.append("Previous conversation:\n")
+        for msg in conversation_history:
+            role = msg["role"]
+            content = msg["content"]
+            if role == "user":
+                lines.append(f"User: {content}\n")
+            elif role == "assistant":
+                lines.append(f"Assistant: {content}\n")
+        lines.append("\n")
+    lines.append(f"User: {user_message}")
+    return "\n".join(lines)
+
+
 async def chat_with_document(
     user_message: str,
     document_text: str | None,
@@ -131,44 +175,11 @@ async def chat_with_document(
     Builds a prompt that includes document context and conversation history,
     then streams the response from the LLM.
     """
-    # Build the full prompt with context
-    prompt_parts: list[str] = []
-
-    # Add document context if available
-    if document_text:
-        prompt_parts.append(
-            "The following is the content of the document being discussed:\n\n"
-            "<document>\n"
-            f"{neutralise_document_tags(document_text)}\n"
-            "</document>\n"
-        )
-    else:
-        prompt_parts.append(
-            "No document has been uploaded yet. If the user asks about a document, "
-            "let them know they need to upload one first.\n"
-        )
-
-    # Add conversation history
-    if conversation_history:
-        prompt_parts.append("Previous conversation:\n")
-        for msg in conversation_history:
-            role = msg["role"]
-            content = msg["content"]
-            if role == "user":
-                prompt_parts.append(f"User: {content}\n")
-            elif role == "assistant":
-                prompt_parts.append(f"Assistant: {content}\n")
-        prompt_parts.append("\n")
-
-    # Add the current user message
-    prompt_parts.append(f"User: {user_message}")
-
-    full_prompt = "\n".join(prompt_parts)
-
+    prompt = build_prompt(user_message, document_text, conversation_history)
     deps = ChatDeps(save_review=review_saver(conversation_id, document_id) if document_id else None)
 
     wrote_text = False
-    async with agent.run_stream_events(full_prompt, deps=deps) as events:
+    async with agent.run_stream_events(prompt, deps=deps) as events:
         async for event in events:
             if isinstance(event, PartStartEvent) and isinstance(event.part, TextPart):
                 # Text resuming after a tool call is a new paragraph, not a continuation.
