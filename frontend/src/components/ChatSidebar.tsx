@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { MessageSquarePlus, Trash2 } from "lucide-react";
+import { MessageSquare, MessageSquarePlus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { relativeTime } from "../lib/utils";
 import type { Conversation, ReviewSummary } from "../types";
@@ -35,13 +35,18 @@ export function ChatSidebar({
 	return (
 		<div className="flex h-full w-[250px] flex-shrink-0 flex-col border-r border-neutral-200 bg-white">
 			<div className="flex items-center justify-between border-b border-neutral-100 p-3">
-				<span className="text-sm font-semibold text-neutral-700">Chats</span>
+				<div className="flex items-center gap-2">
+					<MessageSquare className="h-3.5 w-3.5 text-neutral-400" />
+					<span className="text-sm font-semibold text-neutral-700">Chats</span>
+				</div>
 				<Button variant="ghost" size="icon" onClick={onCreate} title="New chat">
 					<MessageSquarePlus className="h-4 w-4" />
 				</Button>
 			</div>
 
-			<ScrollArea className="flex-1">
+			{/* Sized to its chats, so Risk reviews sits right below them; once the chats fill the
+			    sidebar this shrinks and scrolls, keeping Risk reviews in view. */}
+			<ScrollArea className="min-h-0">
 				<div className="p-2">
 					{loading && conversations.length === 0 && (
 						<div className="space-y-2 p-2">
