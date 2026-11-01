@@ -6,11 +6,15 @@ agrees with the tool's own counts. Results are saved under evals/results/ so qua
 compared across prompt / model / code changes.
 
 Run from the repo root:
-    uv run python evals/risk_eval.py [runs_per_doc]
+    uv run python evals/risk_eval.py [runs_per_doc] [--model anthropic:claude-haiku-5-5]
+
+--model overrides the app's model for this run only, so models can be compared without
+changing llm.py.
 """
 
 from __future__ import annotations
 
+import argparse
 import asyncio
 import hashlib
 import os
@@ -82,6 +86,8 @@ class RunResult(BaseModel):
     stated_counts: dict[str, int] = {}
     count_mismatch: bool = False
     seconds: float = 0.0
+    input_tokens: int = 0
+    output_tokens: int = 0
     risks: list[LocatedRisk] = []
     final_text: str = ""
 
@@ -97,6 +103,8 @@ class DocSummary(BaseModel):
     summary_count_mismatches: int
     title_stability: float | None
     mean_seconds: float | None
+    mean_input_tokens: int | None = None
+    mean_output_tokens: int | None = None
 
 
 class Meta(BaseModel):
@@ -209,6 +217,7 @@ async def run_once(path: Path, pages: dict[int, str], sem: asyncio.Semaphore) ->
         located.append(LocatedRisk(**risk.model_dump(), match=kind, page=page))
 
     counts = summarise_risks(risks).counts
+    usage = result.usage
     text = str(result.output)
     stated = stated_counts(text)
     mismatch = ("total" in stated and stated["total"] != len(risks)) or (
@@ -224,6 +233,8 @@ async def run_once(path: Path, pages: dict[int, str], sem: asyncio.Semaphore) ->
         stated_counts=stated,
         count_mismatch=mismatch,
         seconds=round(secs, 1),
+        input_tokens=usage.input_tokens,
+        output_tokens=usage.output_tokens,
         risks=located,
         final_text=text,
     )
@@ -259,6 +270,8 @@ def summarise(runs: list[RunResult]) -> DocSummary:
         summary_count_mismatches=sum(r.count_mismatch for r in ok),
         title_stability=title_stability(ok),
         mean_seconds=round(mean(r.seconds for r in ok), 1) if ok else None,
+        mean_input_tokens=round(mean(r.input_tokens for r in ok)) if ok else None,
+        mean_output_tokens=round(mean(r.output_tokens for r in ok)) if ok else None,
     )
 
 
@@ -274,15 +287,16 @@ def to_markdown(meta: Meta, summaries: dict[str, DocSummary]) -> str:
         f"- commit: `{meta.commit}`{' (dirty)' if meta.dirty else ''} · prompt hash: `{meta.prompt_hash}`",
         "",
         "| Document | Tool called once | Risks per run | Exact quote | Located (exact+anchor) | "
-        "Counts stated in summary | Title stability | Avg s |",
-        "|---|---|---|---|---|---|---|---|",
+        "Counts stated in summary | Title stability | Avg s | Avg tokens in / out |",
+        "|---|---|---|---|---|---|---|---|---|",
     ]
     for name, s in summaries.items():
         stab = "n/a" if s.title_stability is None else f"{s.title_stability:.0%}"
         lines.append(
             f"| {name} | {s.tool_called_once}/{s.runs} | {s.risk_count} | "
             f"{s.exact_rate:.0%} | {s.located_rate:.0%} | "
-            f"{s.summary_count_mismatches} wrong of {s.summary_checked} checked | {stab} | {s.mean_seconds} |"
+            f"{s.summary_count_mismatches} wrong of {s.summary_checked} checked | {stab} | "
+            f"{s.mean_seconds} | {s.mean_input_tokens} / {s.mean_output_tokens} |"
         )
     lines += [
         "",
@@ -297,7 +311,12 @@ def to_markdown(meta: Meta, summaries: dict[str, DocSummary]) -> str:
 
 
 async def main() -> None:
-    runs_per_doc = int(sys.argv[1]) if len(sys.argv) > 1 else 5
+    parser = argparse.ArgumentParser()
+    parser.add_argument("runs_per_doc", nargs="?", type=int, default=5)
+    parser.add_argument("--model", help="e.g. anthropic:claude-haiku-5-5; default: the app's")
+    args = parser.parse_args()
+    runs_per_doc: int = args.runs_per_doc
+    model_override: str | None = args.model
     pdfs = sorted((ROOT / "sample-docs").glob("*.pdf"))
     sem = asyncio.Semaphore(CONCURRENCY)
 
@@ -306,13 +325,18 @@ async def main() -> None:
         runs = await asyncio.gather(*(run_once(path, pages, sem) for _ in range(runs_per_doc)))
         return path.name, list(runs)
 
-    results = dict(await asyncio.gather(*(do_doc(p) for p in pdfs)))
+    if model_override:
+        with agent.override(model=model_override):
+            results = dict(await asyncio.gather(*(do_doc(p) for p in pdfs)))
+    else:
+        results = dict(await asyncio.gather(*(do_doc(p) for p in pdfs)))
     summaries = {name: summarise(runs) for name, runs in results.items()}
 
     stamp = datetime.now(UTC).strftime("%Y-%m-%dT%H-%M-%SZ")
+    app_model = str(agent.model.model_name) if agent.model else "unknown"  # pyright: ignore
     meta = Meta(
         timestamp=stamp,
-        model=str(agent.model.model_name) if agent.model else "unknown",  # pyright: ignore
+        model=model_override or app_model,
         runs_per_doc=runs_per_doc,
         commit=git("rev-parse", "--short", "HEAD"),
         dirty=bool(git("status", "--porcelain", "--untracked-files=no")),
