@@ -91,6 +91,10 @@ fmt-backend:
 check-frontend:
     docker compose exec frontend npm run check
 
+# Frontend tests
+test-frontend:
+    docker compose exec frontend npm test
+
 # Format frontend
 fmt-frontend:
     docker compose exec frontend npm run fmt
