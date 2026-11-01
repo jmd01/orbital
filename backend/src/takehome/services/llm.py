@@ -109,6 +109,16 @@ async def generate_title(user_message: str) -> str:
     return title
 
 
+def review_saver(conversation_id: str, document_id: str) -> SaveReview:
+    """Bind save_review to this conversation and document, opening its own session per call."""
+
+    async def save(risks: list[RiskInput]) -> RiskTable:
+        async with async_session() as session:
+            return await save_review(session, conversation_id, document_id, risks)
+
+    return save
+
+
 async def chat_with_document(
     user_message: str,
     document_text: str | None,
@@ -155,11 +165,7 @@ async def chat_with_document(
 
     full_prompt = "\n".join(prompt_parts)
 
-    async def save(risks: list[RiskInput]) -> RiskTable:
-        async with async_session() as session:
-            return await save_review(session, conversation_id, document_id or "", risks)
-
-    deps = ChatDeps(save_review=save if document_id is not None else None)
+    deps = ChatDeps(save_review=review_saver(conversation_id, document_id) if document_id else None)
 
     wrote_text = False
     async with agent.run_stream_events(full_prompt, deps=deps) as events:
