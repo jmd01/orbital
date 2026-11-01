@@ -1,0 +1,1486 @@
+{
+  "meta": {
+    "timestamp": "2026-11-01T16-18-05Z",
+    "model": "claude-haiku-4-5-20251001",
+    "runs_per_doc": 5,
+    "commit": "54a0860",
+    "dirty": true,
+    "prompt_hash": "4e387666",
+    "request": "Run a risk review of this document"
+  },
+  "summaries": {
+    "commercial-lease-100-bishopsgate.pdf": {
+      "runs": 5,
+      "errors": 0,
+      "tool_called_once": 5,
+      "risk_count": [
+        10,
+        13,
+        11,
+        13,
+        10
+      ],
+      "exact_rate": 1.0,
+      "located_rate": 1.0,
+      "summary_checked": 4,
+      "summary_count_mismatches": 0,
+      "title_stability": 0.575,
+      "mean_seconds": 20.0,
+      "mean_input_tokens": 13727,
+      "mean_output_tokens": 1845
+    },
+    "environmental-assessment-manchester.pdf": {
+      "runs": 5,
+      "errors": 0,
+      "tool_called_once": 5,
+      "risk_count": [
+        6,
+        6,
+        6,
+        8,
+        7
+      ],
+      "exact_rate": 0.9696969696969697,
+      "located_rate": 1.0,
+      "summary_checked": 4,
+      "summary_count_mismatches": 0,
+      "title_stability": 0.7083333333333334,
+      "mean_seconds": 12.7,
+      "mean_input_tokens": 10925,
+      "mean_output_tokens": 1224
+    },
+    "title-report-lot-7.pdf": {
+      "runs": 5,
+      "errors": 0,
+      "tool_called_once": 5,
+      "risk_count": [
+        6,
+        5,
+        6,
+        6,
+        5
+      ],
+      "exact_rate": 0.9285714285714286,
+      "located_rate": 1.0,
+      "summary_checked": 5,
+      "summary_count_mismatches": 0,
+      "title_stability": 0.8333333333333334,
+      "mean_seconds": 11.0,
+      "mean_input_tokens": 5935,
+      "mean_output_tokens": 1126
+    }
+  },
+  "runs": {
+    "commercial-lease-100-bishopsgate.pdf": [
+      {
+        "error": null,
+        "tool_calls": 1,
+        "risk_count": 10,
+        "severity": {
+          "high": 3,
+          "medium": 6,
+          "low": 1
+        },
+        "exact": 10,
+        "anchor": 0,
+        "unlocated": 0,
+        "stated_counts": {
+          "high": 3
+        },
+        "count_mismatch": false,
+        "seconds": 17.1,
+        "input_tokens": 13501,
+        "output_tokens": 1570,
+        "risks": [
+          {
+            "title": "Upward-only rent review with no cap",
+            "severity": "high",
+            "category": "Rent",
+            "summary": "Rent can only increase at each review date with no ceiling or cap. Combined with open market rent determination, this creates unlimited exposure to rent escalation over the 15-year term.",
+            "quote": "the rent payable shall be the higher of (a) the rent payable immediately before the relevant Review Date and (b) the open market rent of the Premises as at the relevant Review Date",
+            "match": "exact",
+            "page": 4
+          },
+          {
+            "title": "Break premium of six months' rent required",
+            "severity": "high",
+            "category": "Break Clause",
+            "summary": "The tenant must pay a break premium equivalent to six months' rent in addition to complying with other conditions to exit at break dates. This represents a substantial cost to terminate the lease early.",
+            "quote": "the Tenant pays to the Landlord on or before the Break Date a sum equivalent to six (6) months' rent at the rate payable immediately before the Break Date",
+            "match": "exact",
+            "page": 7
+          },
+          {
+            "title": "Material breach at break date prevents exit",
+            "severity": "medium",
+            "category": "Break Clause",
+            "summary": "If the tenant is in material breach of any covenant at the break date, the break right is automatically lost and the lease continues. Strict compliance with all obligations is required to preserve exit rights.",
+            "quote": "there is no material breach by the Tenant of any of the Tenant's covenants in this Lease which remains unremedied at the Break Date",
+            "match": "exact",
+            "page": 7
+          },
+          {
+            "title": "No partial subletting permitted",
+            "severity": "medium",
+            "category": "Alienation",
+            "summary": "The tenant cannot sublet any part of the premises separately. Only the whole building can be sublet, which may restrict flexibility and ability to monetise unused space.",
+            "quote": "The Tenant shall not sublet any part of the Premises (as distinct from the whole).",
+            "match": "exact",
+            "page": 7
+          },
+          {
+            "title": "Landlord's subrogation waiver not guaranteed",
+            "severity": "medium",
+            "category": "Insurance",
+            "summary": "Although the landlord will use reasonable endeavours to obtain a waiver of subrogation rights from the insurer, this is not absolute. The tenant could face claims from insurers for losses despite paying insurance premiums.",
+            "quote": "The Landlord shall use reasonable endeavours to procure that the insurer waives all rights of subrogation against the Tenant in respect of the Insured Risks.",
+            "match": "exact",
+            "page": 6
+          },
+          {
+            "title": "Broad environmental indemnity with statutory liability",
+            "severity": "high",
+            "category": "Environmental",
+            "summary": "The tenant indemnifies the landlord for environmental contamination and statutory liability under Part IIA of the Environmental Protection Act 1990, which can impose significant costs regardless of fault.",
+            "quote": "the Tenant's environmental indemnity shall include liability under Part IIA of the Environmental Protection Act 1990, the Water Resources Act 1991, and any other environmental legislation in force from time to time",
+            "match": "exact",
+            "page": 8
+          },
+          {
+            "title": "Unreasonable use restrictions with subjective landlord discretion",
+            "severity": "medium",
+            "category": "Use",
+            "summary": "The tenant cannot use the premises for any purpose that the landlord considers in their reasonable opinion may be or become a nuisance. This provides the landlord with subjective control over permitted activities.",
+            "quote": "for any purpose which in the reasonable opinion of the Landlord may be or become a nuisance, annoyance or disturbance to the Landlord or the other tenants",
+            "match": "exact",
+            "page": 6
+          },
+          {
+            "title": "Redecorating requirement every five years",
+            "severity": "low",
+            "category": "Repair and Maintenance",
+            "summary": "The tenant must redecorate the interior to first-class office standards every five years and in the final year of the lease, which creates additional ongoing maintenance costs.",
+            "quote": "shall redecorate the same not less frequently than once in every five (5) years of the Term and in the last year of the Term",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Break notice is irrevocable once served",
+            "severity": "medium",
+            "category": "Break Clause",
+            "summary": "Once a break notice is served, the tenant cannot withdraw it. If circumstances change, the tenant remains locked into terminating the lease if conditions are met.",
+            "quote": "A Break Notice, once given, shall be irrevocable.",
+            "match": "exact",
+            "page": 7
+          },
+          {
+            "title": "Tenant bears 18.7% of building service charges",
+            "severity": "medium",
+            "category": "Service Charge",
+            "summary": "The tenant must reimburse the landlord for 18.7% of the cost of maintaining the building's structure, systems, and common areas. These costs can increase significantly over the 15-year term.",
+            "quote": "The cost of the Landlord's obligations under this clause 4.2 shall be recoverable from the Tenant as part of the service charge in accordance with Schedule 3 hereto, the Tenant's proportion being 18.7%",
+            "match": "exact",
+            "page": 5
+          }
+        ],
+        "final_text": "## Summary of Key Findings\n\nThis 15-year lease presents **three high-severity risks** that warrant careful consideration:\n\n1. **Upward-only rent review (no cap)** — Rent can escalate indefinitely at each review date based on open market conditions. With reviews at years 5 and 10, the tenant faces potentially significant cost increases with no protection against market downturns.\n\n2. **Six-month break premium** — Exercising either break right (at years 5 or 10) requires paying six months' additional rent, making early exit expensive. This is a significant termination cost on top of all other break conditions.\n\n3. **Broad environmental indemnity** — The tenant assumes all environmental liability including statutory liability under Part IIA of the Environmental Protection Act 1990, which can impose costs independent of the tenant's actual conduct.\n\nAdditional medium-severity concerns include strict break conditions (material breach defeats the right), inability to sublet parts of the space, uncertain waiver of insurance subrogation, and significant redecorating obligations every five years.\n\nThe tenant should carefully consider the rental escalation exposure, the break premium cost, and environmental liability when evaluating whether to proceed with this lease."
+      },
+      {
+        "error": null,
+        "tool_calls": 1,
+        "risk_count": 13,
+        "severity": {
+          "high": 3,
+          "medium": 6,
+          "low": 4
+        },
+        "exact": 13,
+        "anchor": 0,
+        "unlocated": 0,
+        "stated_counts": {
+          "high": 3
+        },
+        "count_mismatch": false,
+        "seconds": 21.7,
+        "input_tokens": 13839,
+        "output_tokens": 1999,
+        "risks": [
+          {
+            "title": "Upward-only rent review with no cap",
+            "severity": "high",
+            "category": "Rent",
+            "summary": "The rent review mechanism is upward-only at two fixed review dates (years 5 and 10). There is no cap on increases and open market rent could escalate significantly, creating substantial cost exposure over the 15-year term.",
+            "quote": "The rent review shall be upward only.",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Onerous redecoration obligation",
+            "severity": "high",
+            "category": "Repair and Maintenance",
+            "summary": "The tenant must redecorate the entire interior including all external and load-bearing walls to first-class office standards every 5 years and again in the final year, representing substantial recurring expenditure.",
+            "quote": "shall redecorate the same not less frequently than once in every five (5) years of the Term and in the last year of the Term (howsoever determined)",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Broad environmental indemnity",
+            "severity": "high",
+            "category": "Environmental",
+            "summary": "The tenant indemnifies the landlord for all environmental contamination or damage caused by tenant operations, including liability under Part IIA of the Environmental Protection Act 1990 and Water Resources Act 1991, with unlimited exposure.",
+            "quote": "The Tenant shall indemnify and keep indemnified the Landlord against all claims, costs and liabilities arising from or in connection with any contamination of or damage to the environment",
+            "match": "exact",
+            "page": 8
+          },
+          {
+            "title": "No partial subletting permitted",
+            "severity": "medium",
+            "category": "Alienation",
+            "summary": "The tenant cannot sublet any part of the premises, only the whole. This restricts flexibility if the tenant needs to reduce occupancy or sublet excess space.",
+            "quote": "The Tenant shall not sublet any part of the Premises (as distinct from the whole).",
+            "match": "exact",
+            "page": 7
+          },
+          {
+            "title": "Break premium required to exit lease",
+            "severity": "medium",
+            "category": "Break Clause",
+            "summary": "To exercise the break right at years 5 or 10, the tenant must pay 6 months' rent as a break premium, in addition to satisfying other conditions. This increases the cost of early exit.",
+            "quote": "the Tenant pays to the Landlord on or before the Break Date a sum equivalent to six (6) months' rent at the rate payable immediately before the Break Date",
+            "match": "exact",
+            "page": 7
+          },
+          {
+            "title": "12-month break notice required",
+            "severity": "medium",
+            "category": "Break Clause",
+            "summary": "The tenant must give 12 months' notice to exercise break rights and the notice is irrevocable. This creates long-term commitment even if circumstances change significantly.",
+            "quote": "The Tenant must give the Landlord not less than twelve (12) months' prior written notice of its intention to exercise a break right (a \"Break Notice\"). A Break Notice, once given, shall be irrevocable.",
+            "match": "exact",
+            "page": 7
+          },
+          {
+            "title": "Material breach condition for break right",
+            "severity": "medium",
+            "category": "Break Clause",
+            "summary": "The break right is conditional on there being no material breach of tenant covenants at the break date. A single breach could forfeit the break right entirely, even if otherwise compliant.",
+            "quote": "there is no material breach by the Tenant of any of the Tenant's covenants in this Lease which remains unremedied at the Break Date",
+            "match": "exact",
+            "page": 7
+          },
+          {
+            "title": "Tenant bears insurance premium increases",
+            "severity": "medium",
+            "category": "Insurance",
+            "summary": "The tenant must reimburse the landlord for a fair proportion of insurance premiums and excesses. Rising insurance costs are passed to the tenant with no cap.",
+            "quote": "The Tenant shall reimburse to the Landlord on demand a fair proportion (being the Tenant's proportion as defined in clause 4.2.3) of the premium paid or payable by the Landlord for such insurance and any excess",
+            "match": "exact",
+            "page": 6
+          },
+          {
+            "title": "Service charge recovery with fixed 18.7% proportion",
+            "severity": "medium",
+            "category": "Service Charge",
+            "summary": "The tenant pays 18.7% of all service charges including structure, exterior, lifts, air conditioning, fire systems, and common lighting. This is a fixed percentage with no limitation on total service charge increases.",
+            "quote": "The Tenant's proportion being 18.7% (representing the ratio of the net internal area of the Premises to the total lettable area of the Building)",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "No landlord subrogation waiver guarantee",
+            "severity": "low",
+            "category": "Insurance",
+            "summary": "The landlord will only use 'reasonable endeavours' to obtain a waiver of subrogation rights from the insurer. The insurer could pursue the tenant for losses even if the landlord is insured.",
+            "quote": "The Landlord shall use reasonable endeavours to procure that the insurer waives all rights of subrogation against the Tenant",
+            "match": "exact",
+            "page": 6
+          },
+          {
+            "title": "Assignment consent subject to authorised guarantee agreement",
+            "severity": "low",
+            "category": "Alienation",
+            "summary": "The landlord may require the outgoing tenant to enter an authorised guarantee agreement (AGA) as a condition of assignment. This creates contingent liability if the tenant assigns during the term.",
+            "quote": "The Landlord may impose reasonable conditions on any such consent, including (without limitation) a requirement for an authorised guarantee agreement from the outgoing Tenant.",
+            "match": "exact",
+            "page": 6
+          },
+          {
+            "title": "Strict permitted use limitation",
+            "severity": "low",
+            "category": "Permitted Use",
+            "summary": "The tenant is restricted to Class E(g)(i) offices for business operations and cannot conduct any other use without landlord consent. Changes to business model could trigger breach.",
+            "quote": "The Tenant shall use the Premises for the Permitted Use only and for no other purpose whatsoever.",
+            "match": "exact",
+            "page": 6
+          },
+          {
+            "title": "Ongoing rent payment during rent review uncertainty",
+            "severity": "low",
+            "category": "Rent",
+            "summary": "If the reviewed rent is not determined by the review date, the tenant continues paying the old rent but must later pay the shortfall with interest at 2% above Barclays base rate.",
+            "quote": "Upon the Reviewed Rent being ascertained, the Tenant shall pay to the Landlord within fourteen (14) days any shortfall, together with interest thereon at 2% above the base rate of Barclays Bank PLC",
+            "match": "exact",
+            "page": 5
+          }
+        ],
+        "final_text": "## Summary of Key Findings\n\nThis lease carries **three high-severity risks** that merit careful consideration:\n\n1. **Upward-only rent review** – The rent can only stay the same or increase at years 5 and 10, with no cap. Over a 15-year term, significant cost escalation is likely.\n\n2. **Onerous redecoration obligations** – The tenant must redecorate the entire interior to first-class City standards every 5 years (and again in year 15), which represents substantial recurring capital expenditure.\n\n3. **Broad environmental indemnity** – Unlimited liability for any environmental contamination attributable to tenant operations, including complex statutory regimes (Part IIA EPA, Water Resources Act).\n\nAdditionally, there are **six medium-severity risks** including:\n- Restrictions on subletting (whole premises only, no part-subletting)\n- Break clause conditions that are heavily tenant-unfavorable (12-month notice, 6 months' rent premium, strict material breach condition)\n- Fixed service charge proportion (18.7%) with no cap on increases\n- Pass-through of insurance costs with no limitation\n\nThe lease heavily favors the landlord's financial interests and limits the tenant's flexibility. The tenant should carefully model the financial exposure of rent reviews and service charge growth, and consider whether the break clause conditions are acceptable given the 15-year committed term."
+      },
+      {
+        "error": null,
+        "tool_calls": 1,
+        "risk_count": 11,
+        "severity": {
+          "high": 2,
+          "medium": 7,
+          "low": 2
+        },
+        "exact": 11,
+        "anchor": 0,
+        "unlocated": 0,
+        "stated_counts": {
+          "high": 2
+        },
+        "count_mismatch": false,
+        "seconds": 20.9,
+        "input_tokens": 13808,
+        "output_tokens": 1920,
+        "risks": [
+          {
+            "title": "Upward-only rent review with no cap",
+            "severity": "high",
+            "category": "Rent",
+            "summary": "Rent reviews at years 5 and 10 are upward-only with no ceiling, exposing the tenant to unlimited rent increases based on open market valuation. This creates significant financial uncertainty over the 15-year term.",
+            "quote": "With effect from each Review Date, the rent payable shall be the higher of (a) the rent payable immediately before the relevant Review Date and (b) the open market rent of the Premises as at the relevant Review Date",
+            "match": "exact",
+            "page": 4
+          },
+          {
+            "title": "Break premium payable even if exercising break right",
+            "severity": "high",
+            "category": "Break Clause",
+            "summary": "To exit the lease at years 5 or 10, the tenant must pay six months' rent as a 'Break Premium' in addition to complying with other conditions. This is a significant financial penalty for exercising contractual break rights.",
+            "quote": "the Tenant pays to the Landlord on or before the Break Date a sum equivalent to six (6) months' rent at the rate payable immediately before the Break Date (the \"Break Premium\")",
+            "match": "exact",
+            "page": 7
+          },
+          {
+            "title": "Broad indemnity for environmental liability",
+            "severity": "medium",
+            "category": "Environmental",
+            "summary": "The tenant indemnifies the landlord against all environmental contamination caused by the tenant's operations, including liability under Part IIA of the Environmental Protection Act 1990. This exposes the tenant to potentially significant environmental remediation costs.",
+            "quote": "The Tenant shall indemnify and keep indemnified the Landlord against all claims, costs and liabilities arising from or in connection with any contamination of or damage to the environment",
+            "match": "exact",
+            "page": 8
+          },
+          {
+            "title": "No partial subletting permitted",
+            "severity": "medium",
+            "category": "Alienation",
+            "summary": "The tenant cannot sublet any part of the premises, restricting flexibility to monetize unused space or restructure the lease footprint. Only subletting of the whole is permitted (with landlord consent).",
+            "quote": "The Tenant shall not sublet any part of the Premises (as distinct from the whole).",
+            "match": "exact",
+            "page": 7
+          },
+          {
+            "title": "Assignment requires landlord consent without reasonableness cap on conditions",
+            "severity": "medium",
+            "category": "Alienation",
+            "summary": "While consent cannot be unreasonably withheld, the landlord may impose 'reasonable conditions' including an authorised guarantee agreement. The scope of 'reasonable' is undefined and could restrict exit options.",
+            "quote": "The Landlord may impose reasonable conditions on any such consent, including (without limitation) a requirement for an authorised guarantee agreement from the outgoing Tenant.",
+            "match": "exact",
+            "page": 6
+          },
+          {
+            "title": "Rent increase backdated if not agreed by review date",
+            "severity": "medium",
+            "category": "Rent",
+            "summary": "If the reviewed rent is not agreed by the review date, arrears become due when determined, plus interest at only 2% above base rate. Disputes could result in significant retrospective payment obligations.",
+            "quote": "Upon the Reviewed Rent being ascertained, the Tenant shall pay to the Landlord within fourteen (14) days any shortfall, together with interest thereon at 2% above the base rate of Barclays Bank PLC from the relevant Review Date to the date of payment.",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Extensive redecorating obligations every 5 years",
+            "severity": "medium",
+            "category": "Repair and Maintenance",
+            "summary": "The tenant must redecorate the entire interior (including walls, ceilings, doors, windows) to first-class office standard every 5 years and again in the final year. This is a significant ongoing capital expense.",
+            "quote": "The Tenant shall keep the interior of the Premises (including the internal surfaces of all external and load-bearing walls, floors, ceilings, columns, doors, windows and window frames) properly decorated to a standard consistent with that of a first-class office building in the City of London, and shall redecorate the same not less frequently than once in every five (5) years of the Term",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Tenant bears 18.7% of building service charge",
+            "severity": "medium",
+            "category": "Service Charge",
+            "summary": "The tenant is liable for 18.7% of all building maintenance, repair and renewal costs including lifts, air conditioning, and fire systems. This creates exposure to uncontrollable building-wide expenditure.",
+            "quote": "The cost of the Landlord's obligations under this clause 4.2 shall be recoverable from the Tenant as part of the service charge in accordance with Schedule 3 hereto, the Tenant's proportion being 18.7%",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Break right requires full vacant possession and no outstanding breaches",
+            "severity": "medium",
+            "category": "Break Clause",
+            "summary": "To exercise the break right, the tenant must deliver the entire premises vacant and free from subtenants, and there must be no material unremedied breaches. Failure on any condition makes the break notice void.",
+            "quote": "the Tenant gives vacant possession of the whole of the Premises to the Landlord on or before the Break Date, free from all occupiers, subtenants and other persons claiming through or under the Tenant",
+            "match": "exact",
+            "page": 7
+          },
+          {
+            "title": "No waiver of insurer's subrogation rights guaranteed",
+            "severity": "low",
+            "category": "Insurance",
+            "summary": "The landlord will only use 'reasonable endeavours' (not 'best endeavours') to obtain a waiver of insurer subrogation rights. The insurer may still pursue claims against the tenant for insured events.",
+            "quote": "The Landlord shall use reasonable endeavours to procure that the insurer waives all rights of subrogation against the Tenant in respect of the Insured Risks.",
+            "match": "exact",
+            "page": 6
+          },
+          {
+            "title": "Tenant cannot carry out partial subletting",
+            "severity": "low",
+            "category": "Lease Management",
+            "summary": "Restriction on partial subletting may impair business flexibility but maintains landlord control over occupancy. This is a standard provision in institutional leases.",
+            "quote": "The Tenant shall not sublet any part of the Premises (as distinct from the whole).",
+            "match": "exact",
+            "page": 7
+          }
+        ],
+        "final_text": "## Summary of Key Risks\n\nThis lease presents **two high-severity risks** that warrant particular attention:\n\n1. **Unlimited upward-only rent reviews** (Clause 3.2.5): The tenant faces open-ended rent increases at years 5 and 10 with no collar or cap. Combined with the 15-year term, this creates significant long-term financial uncertainty.\n\n2. **Break premium requirement** (Clause 8.3.1): Exercising the break right at years 5 or 10 requires payment of six months' rent in addition to vacant possession and no breaches. This is a material cost to exit the lease.\n\nAdditionally, there are **seven medium-severity risks** primarily concerning:\n- Broad redecorating obligations (every 5 years to first-class standard)\n- Uncontrollable service charge exposure (18.7% of building costs)\n- Environmental indemnity covering Part IIA liability\n- Restrictions on subletting (whole only, no parts)\n- Strict break conditions (vacant possession, no unremedied breaches)\n\nThe lease is heavily weighted in the landlord's favour with limited tenant flexibility for exits or space restructuring. The tenant should consider negotiating caps on rent reviews, reducing the break premium, and expanding subletting rights during the lease term negotiations."
+      },
+      {
+        "error": null,
+        "tool_calls": 1,
+        "risk_count": 13,
+        "severity": {
+          "high": 2,
+          "medium": 7,
+          "low": 4
+        },
+        "exact": 13,
+        "anchor": 0,
+        "unlocated": 0,
+        "stated_counts": {},
+        "count_mismatch": false,
+        "seconds": 20.5,
+        "input_tokens": 13811,
+        "output_tokens": 1936,
+        "risks": [
+          {
+            "title": "Upward-only rent review with no cap",
+            "severity": "high",
+            "category": "Rent",
+            "summary": "The rent review mechanism is upward-only, meaning rent can only stay the same or increase at each review date. There is no limit on how much rent can rise, exposing the tenant to potentially unlimited cost increases every five years.",
+            "quote": "The rent review shall be upward only.",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Break premium of six months' rent required",
+            "severity": "high",
+            "category": "Break Clause",
+            "summary": "To exercise either break option, the tenant must pay a penalty equal to six months' rent. This significant financial burden may effectively prevent the tenant from exiting the lease at the break dates.",
+            "quote": "the Tenant pays to the Landlord on or before the Break Date a sum equivalent to six (6) months' rent at the rate payable immediately before the Break Date (the \"Break Premium\")",
+            "match": "exact",
+            "page": 7
+          },
+          {
+            "title": "Break notice must be irrevocable",
+            "severity": "medium",
+            "category": "Break Clause",
+            "summary": "Once a break notice is given, it cannot be withdrawn. The tenant must be certain of its intention to exercise the break right, as there is no opportunity to reconsider.",
+            "quote": "A Break Notice, once given, shall be irrevocable.",
+            "match": "exact",
+            "page": 7
+          },
+          {
+            "title": "Material breach condition for break exercise",
+            "severity": "medium",
+            "category": "Break Clause",
+            "summary": "The tenant can only exercise the break right if there is no material breach of its covenants remaining unremedied. If any breach exists, even a minor or inadvertent one, the break right is lost.",
+            "quote": "there is no material breach by the Tenant of any of the Tenant's covenants in this Lease which remains unremedied at the Break Date",
+            "match": "exact",
+            "page": 7
+          },
+          {
+            "title": "Comprehensive tenant repair obligations",
+            "severity": "medium",
+            "category": "Repair",
+            "summary": "The tenant is responsible for keeping the entire premises in good repair, including internal surfaces of external and load-bearing walls. This is a broad repairing obligation typical of full repairing and insuring leases.",
+            "quote": "The Tenant shall keep the Premises and every part thereof (including all additions and alterations thereto) in good and substantial repair and condition throughout the Term",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Mandatory redecoration every five years",
+            "severity": "medium",
+            "category": "Repair",
+            "summary": "The tenant must redecorate the interior every five years and again in the final year of the lease, with decoration standards set to match first-class City of London office buildings. This represents a recurring significant cost.",
+            "quote": "shall redecorate the same not less frequently than once in every five (5) years of the Term and in the last year of the Term (howsoever determined)",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Open market rent assumption uses 15-year lookback",
+            "severity": "medium",
+            "category": "Rent",
+            "summary": "When determining open market rent at review dates, the rent is assessed as if the premises were being let for 15 years or the unexpired term if longer. This may result in higher valuations than the remaining lease term justifies.",
+            "quote": "for a term equal to the residue of the Term unexpired at the Review Date or fifteen (15) years, whichever is the longer",
+            "match": "exact",
+            "page": 4
+          },
+          {
+            "title": "Part subletting prohibited",
+            "severity": "low",
+            "category": "Alienation",
+            "summary": "The tenant cannot sublet any part of the premises. This restricts the tenant's flexibility in occupying or monetizing only portions of the space if business needs change.",
+            "quote": "The Tenant shall not sublet any part of the Premises (as distinct from the whole).",
+            "match": "exact",
+            "page": 7
+          },
+          {
+            "title": "No offset or deduction from rent",
+            "severity": "medium",
+            "category": "Rent",
+            "summary": "The tenant must pay rent in full without any deduction, counterclaim or set-off, even if the landlord breaches its obligations. The tenant's only recourse is to pursue separate claims against the landlord.",
+            "quote": "without any deduction, counterclaim or set-off whatsoever",
+            "match": "exact",
+            "page": 4
+          },
+          {
+            "title": "Tenant absorbs insurance premium increases",
+            "severity": "low",
+            "category": "Insurance",
+            "summary": "The tenant reimburses its proportionate share of insurance premiums and any excesses. If premiums increase due to landlord negligence or building issues, the tenant bears the increased cost.",
+            "quote": "the Tenant shall reimburse to the Landlord on demand a fair proportion (being the Tenant's proportion as defined in clause 4.2.3) of the premium paid or payable by the Landlord for such insurance and any excess applicable under the policy",
+            "match": "exact",
+            "page": 6
+          },
+          {
+            "title": "Service charge cost recovery at 18.7%",
+            "severity": "low",
+            "category": "Service Charge",
+            "summary": "The tenant pays 18.7% of all building service costs via the service charge mechanism. If service charge costs increase significantly, this represents an uncapped additional cost burden beyond base rent.",
+            "quote": "the Tenant's proportion being 18.7% (representing the ratio of the net internal area of the Premises to the total lettable area of the Building)",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Environmental indemnity is broad and unlimited",
+            "severity": "medium",
+            "category": "Environmental",
+            "summary": "The tenant indemnifies the landlord against all environmental claims caused by the tenant's operations, including liability under Environmental Protection Act 1990 and Water Resources Act 1991. This is a potentially unlimited liability.",
+            "quote": "The Tenant shall indemnify and keep indemnified the Landlord against all claims, costs and liabilities arising from or in connection with any contamination of or damage to the environment",
+            "match": "exact",
+            "page": 8
+          },
+          {
+            "title": "Interest charged on late rent review payments",
+            "severity": "low",
+            "category": "Rent",
+            "summary": "When the reviewed rent is determined late, interest accrues at 2% above Barclays Bank base rate from the review date. This incentivizes prompt resolution but creates additional cost if reviews are delayed.",
+            "quote": "the Tenant shall pay to the Landlord within fourteen (14) days any shortfall, together with interest thereon at 2% above the base rate of Barclays Bank PLC",
+            "match": "exact",
+            "page": 5
+          }
+        ],
+        "final_text": "## Summary\n\nThis is a **15-year full repairing and insuring lease** with several significant commercial risks for the tenant:\n\n**Most Critical Issues:**\n1. **Upward-only rent reviews** at years 5 and 10 with no cap mean rent can only stay level or rise, potentially significantly, over the term\n2. **Break premiums of 6 months' rent** effectively function as termination penalties, making it expensive to exit the lease at the scheduled break dates (2029 and 2034)\n3. **Break notice is irrevocable** once given—there is no flexibility to reconsider after serving notice\n\n**Other Material Concerns:**\n- Tenant bears all interior repairing obligations and must redecorate every 5 years to first-class office standards\n- Broad environmental indemnity exposes the tenant to potentially unlimited environmental liability\n- No rent offset rights even if the landlord breaches its obligations\n- Service charge obligations at 18.7% of building costs with no cap\n- Part subletting is prohibited, limiting flexibility\n\nThe lease heavily favors the landlord. The combination of upward-only rents and break premiums means the tenant has limited cost control and limited practical exit options during the term."
+      },
+      {
+        "error": null,
+        "tool_calls": 1,
+        "risk_count": 10,
+        "severity": {
+          "high": 3,
+          "medium": 5,
+          "low": 2
+        },
+        "exact": 10,
+        "anchor": 0,
+        "unlocated": 0,
+        "stated_counts": {
+          "high": 3
+        },
+        "count_mismatch": false,
+        "seconds": 19.7,
+        "input_tokens": 13674,
+        "output_tokens": 1801,
+        "risks": [
+          {
+            "title": "Upward-only rent review with no cap",
+            "severity": "high",
+            "category": "Rent",
+            "summary": "The rent review mechanism at each Review Date is upward-only, meaning rent can never decrease. Combined with no rent increase cap, this creates significant long-term cost escalation risk with no protection against market volatility or tenant hardship.",
+            "quote": "the rent payable shall be the higher of (a) the rent payable immediately before the relevant Review Date and (b) the open market rent of the Premises as at the relevant Review Date",
+            "match": "exact",
+            "page": 4
+          },
+          {
+            "title": "Break Premium of 6 months' rent required",
+            "severity": "high",
+            "category": "Break Clause",
+            "summary": "To exercise the break right on either anniversary (year 5 or 10), the tenant must pay a lump sum equal to 6 months' rent as a Break Premium. This represents a significant financial hurdle that may effectively lock the tenant into the lease despite having formal break rights.",
+            "quote": "the Tenant pays to the Landlord on or before the Break Date a sum equivalent to six (6) months' rent at the rate payable immediately before the Break Date (the \"Break Premium\")",
+            "match": "exact",
+            "page": 7
+          },
+          {
+            "title": "Full repairing and maintenance obligations on tenant",
+            "severity": "high",
+            "category": "Repair",
+            "summary": "The tenant bears comprehensive repair obligations for the entire premises including interior surfaces of external and load-bearing walls, plus a requirement to redecorate every 5 years and in the final year. This is an extensive and costly long-term commitment.",
+            "quote": "The Tenant shall keep the Premises and every part thereof (including all additions and alterations thereto) in good and substantial repair and condition throughout the Term",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Rent review arbitration delay creates cash flow uncertainty",
+            "severity": "medium",
+            "category": "Rent",
+            "summary": "If landlord and tenant cannot agree on reviewed rent by the Review Date, an independent surveyor must determine it. During this period, the tenant pays the old rent but faces potential back-payment of arrears with interest. This creates cash flow uncertainty and contingent liability.",
+            "quote": "Upon the Reviewed Rent being ascertained, the Tenant shall pay to the Landlord within fourteen (14) days any shortfall, together with interest thereon at 2% above the base rate of Barclays Bank PLC",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Broad indemnity for environmental liability",
+            "severity": "medium",
+            "category": "Environmental",
+            "summary": "The tenant indemnifies the landlord for all environmental contamination caused by the tenant's operations. This includes liability under Part IIA of the Environmental Protection Act 1990, which can impose significant cleanup costs and regulatory obligations.",
+            "quote": "the Tenant's environmental indemnity shall include liability under Part IIA of the Environmental Protection Act 1990, the Water Resources Act 1991, and any other environmental legislation in force from time to time",
+            "match": "exact",
+            "page": 8
+          },
+          {
+            "title": "Service charge at 18.7% with no cap",
+            "severity": "medium",
+            "category": "Service Charge",
+            "summary": "The tenant's service charge contribution (18.7% of building costs) is fixed as a proportion but the underlying costs are uncapped. The landlord controls expenditure on structural repairs, lifts, air conditioning, and fire systems with no cost control mechanisms or consultation requirements.",
+            "quote": "The cost of the Landlord's obligations under this clause 4.2 shall be recoverable from the Tenant as part of the service charge in accordance with Schedule 3 hereto, the Tenant's proportion being 18.7%",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "No subletting of part permitted",
+            "severity": "medium",
+            "category": "Alienation",
+            "summary": "The tenant cannot sublet any part of the premises (only subletting of the whole is permitted with consent). This restricts flexibility to downsize or optimize space utilization during the 15-year term.",
+            "quote": "The Tenant shall not sublet any part of the Premises (as distinct from the whole).",
+            "match": "exact",
+            "page": 7
+          },
+          {
+            "title": "Break conditions difficult to satisfy",
+            "severity": "medium",
+            "category": "Break Clause",
+            "summary": "The break right is conditional on no material unremedied breach of tenant covenants and vacant possession. These conditions are absolute and non-satisfaction renders the Break Notice void, creating risk that the break cannot be exercised if any breach exists.",
+            "quote": "there is no material breach by the Tenant of any of the Tenant's covenants in this Lease which remains unremedied at the Break Date",
+            "match": "exact",
+            "page": 7
+          },
+          {
+            "title": "Rent-free period not evidenced in lease head terms",
+            "severity": "low",
+            "category": "Rent",
+            "summary": "The lease specifies quarterly rent payments commence on the Term Commencement Date (1 January 2024) with no provision for any rent-free period or abatement. Confirm whether any rent-free period was negotiated separately.",
+            "quote": "the first such payment (or a due proportion thereof in respect of the period from the Term Commencement Date to the next quarter day) to be made on the Term Commencement Date",
+            "match": "exact",
+            "page": 4
+          },
+          {
+            "title": "Tenant must comply with insurance conditions",
+            "severity": "low",
+            "category": "Insurance",
+            "summary": "The tenant cannot do anything that might void the building insurance policy or increase premiums. Breach of this vague obligation exposes the tenant to indemnity claims and the landlord could refuse consent to reasonable business activities.",
+            "quote": "The Tenant shall not do or permit anything to be done on the Premises which may render void or voidable any policy of insurance on the Building or which may cause any increased premium to become payable",
+            "match": "exact",
+            "page": 6
+          }
+        ],
+        "final_text": "## Summary of Key Findings\n\nThis 15-year lease presents **three high-severity risks** that warrant negotiation:\n\n1. **Upward-only rent review**: At years 5 and 10, rent can only increase (never decrease) to open market value with no cap. Over 15 years, this creates substantial long-term cost exposure.\n\n2. **Break Premium hurdle**: The tenant can exit at years 5 and 10, but only by paying 6 months' rent upfront plus meeting strict conditions (no material breaches, vacant possession). This significantly reduces the practical value of the break rights.\n\n3. **Comprehensive repair obligations**: The tenant bears full repairing liability including external walls, with mandatory redecoration every 5 years. This is a substantial, long-term financial commitment with limited landlord support.\n\nAdditionally, **five medium-severity risks** should be reviewed:\n- Contingent rent arrears and interest during rent review disputes\n- Uncapped service charge (18.7% of building costs)\n- Environmental indemnity covering statutory cleanup liability\n- No partial subletting allowed (restricts flexibility)\n- Break conditions are absolute (any breach defeats break rights)\n\n**Recommendation**: Prioritize renegotiating the rent review mechanism (consider adding a floor/cap or market-testing provisions) and clarifying the break conditions and premium. The repairing obligations and service charge terms also merit detailed review against comparables in the City of London market."
+      }
+    ],
+    "environmental-assessment-manchester.pdf": [
+      {
+        "error": null,
+        "tool_calls": 1,
+        "risk_count": 6,
+        "severity": {
+          "high": 3,
+          "medium": 3,
+          "low": 0
+        },
+        "exact": 6,
+        "anchor": 0,
+        "unlocated": 0,
+        "stated_counts": {
+          "high": 3
+        },
+        "count_mismatch": false,
+        "seconds": 11.7,
+        "input_tokens": 10856,
+        "output_tokens": 1122,
+        "risks": [
+          {
+            "title": "Soil contamination from former printing works",
+            "severity": "high",
+            "category": "Contamination",
+            "summary": "The Site was used as a printing works from 1975-2002, involving potentially hazardous substances including petroleum-based inks with heavy metals, organic solvents, and chlorinated solvents. Spillages during this 27-year period may have contaminated soil and groundwater.",
+            "quote": "Spillages and leaks of these substances during the 27-year period of printing operations may have resulted in contamination of the underlying soil and, potentially, groundwater.",
+            "match": "exact",
+            "page": 4
+          },
+          {
+            "title": "Unknown status of underground storage tank",
+            "severity": "high",
+            "category": "Contamination",
+            "summary": "A 5,000-litre underground storage tank for heating oil was identified in 1985, but no records confirm whether it was decommissioned or removed. Its current status is unknown and presents a significant leakage risk.",
+            "quote": "No records have been identified to confirm whether the underground storage tank was decommissioned, removed or filled in situ. The current status of the tank is therefore unknown.",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Flood risk",
+            "severity": "medium",
+            "category": "Flood",
+            "summary": "The Site is located in Flood Zone 2 with a medium probability of river flooding between 1 in 100 and 1 in 1,000 annual probability, and is not protected by flood defences.",
+            "quote": "The Site is located within Flood Zone 2, meaning that there is a medium probability of flooding (between 1 in 100 and 1 in 1,000 annual probability of river flooding).",
+            "match": "exact",
+            "page": 3
+          },
+          {
+            "title": "Air quality management area designation",
+            "severity": "medium",
+            "category": "Air Quality",
+            "summary": "The Site is within the Greater Manchester Air Quality Management Area declared for nitrogen dioxide exceedances. This may affect redevelopment plans and impose compliance obligations.",
+            "quote": "The Site is located within the Greater Manchester Air Quality Management Area (AQMA), declared in 2016 for exceedances of annual mean nitrogen dioxide (NO2) concentrations.",
+            "match": "exact",
+            "page": 3
+          },
+          {
+            "title": "Significant remediation costs likely required",
+            "severity": "high",
+            "category": "Financial",
+            "summary": "If contamination is confirmed, remediation costs are estimated at £50,000 to £200,000 depending on severity. Further investigation (£15,000-£25,000) is needed before development can proceed.",
+            "quote": "remediation costs are estimated in the range of £50,000 to £200,000 (exclusive of VAT), depending on the extent and severity of contamination.",
+            "match": "exact",
+            "page": 6
+          },
+          {
+            "title": "Phase II investigation required",
+            "severity": "medium",
+            "category": "Due Diligence",
+            "summary": "The Phase I assessment is inconclusive. A Phase II intrusive investigation costing £15,000-£25,000 must be completed to characterise contamination risks before any development decision can be made.",
+            "quote": "A Phase II intrusive investigation is recommended to characterise the nature and extent of any contamination at the Site.",
+            "match": "exact",
+            "page": 5
+          }
+        ],
+        "final_text": "## Summary\n\nThis Phase I Environmental Site Assessment reveals **three high-severity risks** that will materially impact acquisition and development viability:\n\n1. **Former printing works contamination (1975-2002)** – The Site's historical use with inks, solvents, and chemicals poses a moderate-to-high risk of soil and groundwater contamination. The building's solid floor may provide some protection, but this cannot be confirmed without intrusive testing.\n\n2. **Unknown underground storage tank** – A 5,000-litre heating oil tank identified in 1985 has no decommissioning records. If it remains in-ground, it presents a significant leakage risk requiring removal before development.\n\n3. **Estimated remediation costs of £50,000–£200,000** – Before redevelopment can proceed, contamination must be characterized and remediated, creating substantial unquantified liability.\n\n**Additional medium-severity issues** include flood risk (Zone 2) and air quality management constraints that may affect development plans.\n\n**Critical next step:** A Phase II intrusive investigation (£15,000–£25,000) is mandatory to characterize actual contamination levels and refine remediation cost estimates. Do not proceed with acquisition commitments until this is complete."
+      },
+      {
+        "error": null,
+        "tool_calls": 1,
+        "risk_count": 6,
+        "severity": {
+          "high": 4,
+          "medium": 1,
+          "low": 1
+        },
+        "exact": 6,
+        "anchor": 0,
+        "unlocated": 0,
+        "stated_counts": {
+          "high": 4
+        },
+        "count_mismatch": false,
+        "seconds": 12.4,
+        "input_tokens": 10882,
+        "output_tokens": 1202,
+        "risks": [
+          {
+            "title": "Contamination from former printing works",
+            "severity": "high",
+            "category": "Environmental Contamination",
+            "summary": "The site was used as a printing works from 1975-2002, involving hazardous substances including petroleum-based inks, organic solvents, chlorinated solvents, and photographic chemicals. Spillages during this 27-year period may have contaminated soil and groundwater.",
+            "quote": "Spillages and leaks of these substances during the 27-year period of printing operations may have resulted in contamination of the underlying soil and, potentially, groundwater.",
+            "match": "exact",
+            "page": 4
+          },
+          {
+            "title": "Unknown status of underground storage tank",
+            "severity": "high",
+            "category": "Environmental Contamination",
+            "summary": "An underground heating oil storage tank (5,000-litre capacity) was identified in 1985 records. No documentation exists confirming whether it was decommissioned, removed or left in situ, creating significant risk of leakage and soil/groundwater contamination.",
+            "quote": "No records have been identified to confirm whether the underground storage tank was decommissioned, removed or filled in situ. The current status of the tank is therefore unknown.",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Potential groundwater contamination risk",
+            "severity": "high",
+            "category": "Environmental Contamination",
+            "summary": "The underlying Sherwood Sandstone Group is classified as a Principal Aquifer representing a regionally significant groundwater resource. Contaminants from printing operations or tank leakage could migrate through the glacial till to this aquifer.",
+            "quote": "The Sherwood Sandstone Group is classified by the Environment Agency as a Principal Aquifer, representing a regionally significant groundwater resource.",
+            "match": "exact",
+            "page": 3
+          },
+          {
+            "title": "Flood risk within Flood Zone 2",
+            "severity": "medium",
+            "category": "Flood Risk",
+            "summary": "The site is located within Flood Zone 2, indicating medium probability of river flooding (1 in 100 to 1 in 1,000 annual probability). The site is not protected by flood defences.",
+            "quote": "The Site is located within Flood Zone 2, meaning that there is a medium probability of flooding (between 1 in 100 and 1 in 1,000 annual probability of river flooding).",
+            "match": "exact",
+            "page": 3
+          },
+          {
+            "title": "Phase II investigation required and additional costs",
+            "severity": "high",
+            "category": "Investigation & Remediation Costs",
+            "summary": "A Phase II intrusive investigation is recommended to characterise contamination extent, with estimated costs of £15,000-£25,000. Potential remediation costs are estimated at £50,000-£200,000 depending on contamination extent.",
+            "quote": "A Phase II intrusive investigation is recommended to characterise the nature and extent of any contamination at the Site.",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Air Quality Management Area designation",
+            "severity": "low",
+            "category": "Environmental Regulation",
+            "summary": "The site is located within the Greater Manchester Air Quality Management Area declared in 2016 for nitrogen dioxide exceedances. This may impact future use and require compliance with air quality action plans.",
+            "quote": "The Site is located within the Greater Manchester Air Quality Management Area (AQMA), declared in 2016 for exceedances of annual mean nitrogen dioxide (NO2) concentrations.",
+            "match": "exact",
+            "page": 3
+          }
+        ],
+        "final_text": "## Summary of Key Findings\n\nThis Phase I Environmental Assessment identifies **four high-severity risks** that require immediate attention:\n\n1. **Printing works contamination** – The 27-year use as a printing works (1975-2002) involved hazardous substances (heavy metals, solvents, chlorinated compounds) that may have contaminated soil and groundwater through spillages and leaks.\n\n2. **Underground storage tank of unknown status** – A 5,000-litre heating oil tank documented in 1985 records has no decommissioning records. If still in situ, it presents significant leakage risk to soil and groundwater.\n\n3. **Principal Aquifer exposure** – The underlying Sherwood Sandstone Group is a regionally significant groundwater resource. Contamination from either the printing works or tank could migrate through the glacial till to this aquifer, creating environmental and regulatory liability.\n\n4. **Investigation and remediation costs** – A Phase II intrusive investigation (£15,000-£25,000) is required before any redevelopment, with potential remediation costs of £50,000-£200,000 depending on contamination severity.\n\nThe overall site risk is classified as **Low to Moderate** in the report, but the specific contamination risks are material. The site is also located in Flood Zone 2 (medium flood probability) and within an Air Quality Management Area, adding to the regulatory complexity."
+      },
+      {
+        "error": null,
+        "tool_calls": 1,
+        "risk_count": 6,
+        "severity": {
+          "high": 4,
+          "medium": 2,
+          "low": 0
+        },
+        "exact": 6,
+        "anchor": 0,
+        "unlocated": 0,
+        "stated_counts": {},
+        "count_mismatch": false,
+        "seconds": 12.2,
+        "input_tokens": 10878,
+        "output_tokens": 1173,
+        "risks": [
+          {
+            "title": "Contamination from Former Printing Works",
+            "severity": "high",
+            "category": "Environmental Contamination",
+            "summary": "The Site was used as a printing works from 1975-2002 involving hazardous substances including petroleum-based inks, organic solvents, and chlorinated solvents. Spillages and leaks during this 27-year period may have contaminated soil and groundwater.",
+            "quote": "Spillages and leaks of these substances during the 27-year period of printing operations may have resulted in contamination of the underlying soil and, potentially, groundwater.",
+            "match": "exact",
+            "page": 4
+          },
+          {
+            "title": "Unknown Status of Underground Storage Tank",
+            "severity": "high",
+            "category": "Environmental Contamination",
+            "summary": "An underground storage tank (5,000 litre capacity) was identified from a 1985 survey but its current status is unknown. If still in situ, it presents significant risk of petroleum contamination to soil and groundwater.",
+            "quote": "No records have been identified to confirm whether the underground storage tank was decommissioned, removed or filled in situ. The current status of the tank is therefore unknown.",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Risk of Groundwater Contamination to Principal Aquifer",
+            "severity": "high",
+            "category": "Environmental Contamination",
+            "summary": "The Site overlies a Principal Aquifer (Sherwood Sandstone Group) which is a regionally significant groundwater resource. Contaminants may migrate through the glacial till layer to this aquifer, creating potential regulatory and liability issues.",
+            "quote": "The Sherwood Sandstone Group is classified by the Environment Agency as a Principal Aquifer, representing a regionally significant groundwater resource.",
+            "match": "exact",
+            "page": 3
+          },
+          {
+            "title": "Flood Risk Zone 2 Classification",
+            "severity": "medium",
+            "category": "Flood Risk",
+            "summary": "The Site is located in Flood Zone 2, indicating medium probability of river flooding (1 in 100 to 1 in 1,000 annual probability). The Site does not benefit from flood defences.",
+            "quote": "The Site is located within Flood Zone 2, meaning that there is a medium probability of flooding (between 1 in 100 and 1 in 1,000 annual probability of river flooding). The Site is not within an area benefiting from flood defences.",
+            "match": "exact",
+            "page": 3
+          },
+          {
+            "title": "Air Quality Management Area Designation",
+            "severity": "medium",
+            "category": "Air Quality",
+            "summary": "The Site is within the Greater Manchester Air Quality Management Area declared for nitrogen dioxide exceedances. This may affect redevelopment plans and air quality compliance obligations.",
+            "quote": "The Site is located within the Greater Manchester Air Quality Management Area (AQMA), declared in 2016 for exceedances of annual mean nitrogen dioxide (NO2) concentrations.",
+            "match": "exact",
+            "page": 3
+          },
+          {
+            "title": "Mandatory Phase II Investigation Required",
+            "severity": "high",
+            "category": "Due Diligence Gap",
+            "summary": "A Phase II intrusive investigation is recommended to characterise contamination risks. This represents an unfunded future cost of £15,000-£25,000 and potential remediation costs of £50,000-£200,000.",
+            "quote": "A Phase II intrusive investigation is recommended to further characterise these risks.",
+            "match": "exact",
+            "page": 2
+          }
+        ],
+        "final_text": "## Summary of Key Findings\n\nThis Phase I Environmental Site Assessment identifies **significant environmental risks** requiring immediate attention before acquisition:\n\n**High-Severity Risks:**\n- The former printing works use (1975-2002) poses the greatest concern, with historical use of petroleum inks, organic solvents, and chlorinated solvents creating moderate-to-high contamination risk to soil and groundwater\n- An underground storage tank (5,000L capacity) identified in a 1985 survey has unknown status—it may still be in situ presenting leakage risks\n- The Site overlies a Principal Aquifer (regionally significant groundwater resource), meaning any soil contamination could migrate downward and trigger environmental liability and regulatory action\n\n**Medium-Severity Risks:**\n- Flood Zone 2 classification with no flood defences—relevant to redevelopment and insurance costs\n- Air Quality Management Area designation may impose compliance obligations on future use\n\n**Financial Exposure:**\nThe report flags essential unfunded costs: Phase II investigation (£15,000-£25,000) is **not optional** given the contamination indicators, with potential remediation costs ranging £50,000-£200,000 depending on investigation findings. These costs should be factored into acquisition economics.\n\n**Recommendation:** Phase II intrusive investigation is essential due diligence before proceeding with this acquisition."
+      },
+      {
+        "error": null,
+        "tool_calls": 1,
+        "risk_count": 8,
+        "severity": {
+          "high": 5,
+          "medium": 2,
+          "low": 1
+        },
+        "exact": 8,
+        "anchor": 0,
+        "unlocated": 0,
+        "stated_counts": {
+          "high": 5
+        },
+        "count_mismatch": false,
+        "seconds": 14.5,
+        "input_tokens": 11053,
+        "output_tokens": 1368,
+        "risks": [
+          {
+            "title": "Former printing works contamination risk",
+            "severity": "high",
+            "category": "Environmental - Soil/Groundwater Contamination",
+            "summary": "The site was used as a printing works for 27 years (1975-2002), during which hazardous substances including petroleum-based inks, organic solvents, chlorinated solvents, and photographic chemicals were used. Spillages and leaks may have contaminated soil and potentially groundwater.",
+            "quote": "Spillages and leaks of these substances during the 27-year period of printing operations may have resulted in contamination of the underlying soil and, potentially, groundwater.",
+            "match": "exact",
+            "page": 4
+          },
+          {
+            "title": "Unknown status of underground storage tank",
+            "severity": "high",
+            "category": "Environmental - Storage Tank",
+            "summary": "A 5,000-litre underground heating oil tank identified in a 1985 survey has no records confirming whether it was decommissioned, removed, or remains in situ. This presents a significant risk of petroleum product leakage.",
+            "quote": "No records have been identified to confirm whether the underground storage tank was decommissioned, removed or filled in situ. The current status of the tank is therefore unknown.",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Flood risk classification",
+            "severity": "medium",
+            "category": "Environmental - Flood Risk",
+            "summary": "The site is located within Flood Zone 2, indicating a medium probability of river flooding between 1 in 100 and 1 in 1,000 annual probability, with no flood defences in place.",
+            "quote": "The Site is located within Flood Zone 2, meaning that there is a medium probability of flooding (between 1 in 100 and 1 in 1,000 annual probability of river flooding).",
+            "match": "exact",
+            "page": 3
+          },
+          {
+            "title": "Site not within flood defence area",
+            "severity": "medium",
+            "category": "Environmental - Flood Risk",
+            "summary": "The property does not benefit from existing flood defences, increasing flood exposure risk.",
+            "quote": "The Site is not within an area benefiting from flood defences.",
+            "match": "exact",
+            "page": 3
+          },
+          {
+            "title": "Site located in Air Quality Management Area",
+            "severity": "low",
+            "category": "Environmental - Air Quality",
+            "summary": "The site falls within Manchester's Air Quality Management Area declared for nitrogen dioxide exceedances. This may affect future commercial use or occupier requirements.",
+            "quote": "The Site is located within the Greater Manchester Air Quality Management Area (AQMA), declared in 2016 for exceedances of annual mean nitrogen dioxide (NO2) concentrations.",
+            "match": "exact",
+            "page": 3
+          },
+          {
+            "title": "Groundwater contamination risk to Principal Aquifer",
+            "severity": "high",
+            "category": "Environmental - Groundwater",
+            "summary": "The underlying Sherwood Sandstone Group is a Principal Aquifer representing a regionally significant groundwater resource. Contaminants from the site could migrate through glacial till to this resource.",
+            "quote": "These contaminants may present risks to human health (particularly via inhalation of vapours in enclosed spaces) and to controlled waters (via migration through the glacial till to the underlying principal aquifer).",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Phase II investigation required",
+            "severity": "high",
+            "category": "Environmental - Investigation Gap",
+            "summary": "The Phase I assessment identifies that further intrusive investigation is required to properly characterise contamination risks before development can proceed, indicating current uncertainty about site conditions.",
+            "quote": "A Phase II intrusive investigation is recommended to characterise the nature and extent of any contamination at the Site.",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Significant remediation costs anticipated",
+            "severity": "high",
+            "category": "Environmental - Remediation Costs",
+            "summary": "Estimated remediation costs of £50,000 to £200,000 (plus investigation costs of £15,000-£25,000) are anticipated if contamination is confirmed, materially affecting project economics.",
+            "quote": "remediation costs are estimated in the range of £50,000 to £200,000 (exclusive of VAT), depending on the extent and severity of contamination.",
+            "match": "exact",
+            "page": 6
+          }
+        ],
+        "final_text": "## Summary of Key Findings\n\nThis Phase I Environmental Site Assessment identifies **five high-severity risks** that require careful consideration before acquisition and redevelopment:\n\n**Critical Issues:**\n- **Printing works legacy contamination** (1975-2002) poses the primary risk. The site used hazardous inks, solvents, and chemicals that may have contaminated soil and groundwater.\n- **Unaccounted underground storage tank** — a 5,000-litre heating oil tank from 1985 has no decommissioning records, creating unknown leakage risk.\n- **Principal Aquifer exposure** — contaminants could migrate to the underlying Sherwood Sandstone Group, a regionally significant groundwater resource.\n\n**Financial Impact:**\nThe report recommends (and costs are uncertain until completed) a Phase II intrusive investigation (£15,000–£25,000) followed by potential remediation works (£50,000–£200,000). These costs represent significant pre-development expenditure.\n\n**Other Considerations:**\n- Flood Zone 2 classification with no flood defences in place\n- Site within Greater Manchester Air Quality Management Area\n\n**Next Steps:** A Phase II intrusive investigation is essential before proceeding with any acquisition, as the current LOW to MODERATE risk classification cannot be refined without ground investigation."
+      },
+      {
+        "error": null,
+        "tool_calls": 1,
+        "risk_count": 7,
+        "severity": {
+          "high": 3,
+          "medium": 4,
+          "low": 0
+        },
+        "exact": 6,
+        "anchor": 1,
+        "unlocated": 0,
+        "stated_counts": {
+          "high": 3
+        },
+        "count_mismatch": false,
+        "seconds": 12.7,
+        "input_tokens": 10958,
+        "output_tokens": 1253,
+        "risks": [
+          {
+            "title": "Former printing works contamination risk",
+            "severity": "high",
+            "category": "Environmental Contamination",
+            "summary": "The site was used as a printing works from 1975–2002, involving hazardous substances including petroleum-based inks with heavy metals, organic and chlorinated solvents, and photographic chemicals. Spillages and leaks during this 27-year period may have contaminated soil and potentially groundwater.",
+            "quote": "Spillages and leaks of these substances during the 27-year period of printing operations may have resulted in contamination of the underlying soil and, potentially, groundwater.",
+            "match": "exact",
+            "page": 4
+          },
+          {
+            "title": "Unknown status of underground storage tank",
+            "severity": "high",
+            "category": "Environmental Contamination",
+            "summary": "An underground storage tank (estimated 5,000 litres capacity) was documented in 1985 but no records confirm whether it was ever decommissioned or removed. This presents significant risk of petroleum contamination.",
+            "quote": "No records have been identified to confirm whether the underground storage tank was decommissioned, removed or filled in situ. The current status of the tank is therefore unknown.",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Groundwater contamination risk to Principal Aquifer",
+            "severity": "high",
+            "category": "Environmental - Controlled Waters",
+            "summary": "The Sherwood Sandstone Group below the site is a Principal Aquifer and regionally significant groundwater resource. Contaminants from former printing operations and potential tank leakage could migrate through glacial till to this aquifer.",
+            "quote": "The Sherwood Sandstone Group is classified by the Environment Agency as a Principal Aquifer, representing a regionally significant groundwater resource.",
+            "match": "exact",
+            "page": 3
+          },
+          {
+            "title": "Flood risk classification",
+            "severity": "medium",
+            "category": "Flood Risk",
+            "summary": "The site is located in Flood Zone 2 with medium probability of river flooding (1 in 100 to 1 in 1,000 annual probability) and is not protected by flood defences.",
+            "quote": "The Site is located within Flood Zone 2, meaning that there is a medium probability of flooding (between 1 in 100 and 1 in 1,000 annual probability of river flooding).",
+            "match": "exact",
+            "page": 3
+          },
+          {
+            "title": "Air quality management area designation",
+            "severity": "medium",
+            "category": "Air Quality",
+            "summary": "The site is within the Greater Manchester Air Quality Management Area declared for nitrogen dioxide exceedances, which may affect development or use plans.",
+            "quote": "The Site is located within the Greater Manchester Air Quality Management Area (AQMA), declared in 2016 for exceedances of annual mean nitrogen dioxide (NO2) concentrations.",
+            "match": "exact",
+            "page": 3
+          },
+          {
+            "title": "Phase II investigation required before redevelopment",
+            "severity": "medium",
+            "category": "Due Diligence",
+            "summary": "A Phase II intrusive investigation is essential to characterise contamination before redevelopment, with estimated costs of £15,000–£25,000 and potential remediation costs of £50,000–£200,000.",
+            "quote": "A Phase II intrusive investigation is recommended to characterise the nature and extent of any contamination at the Site.",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Soil vapour inhalation risk from VOCs",
+            "severity": "medium",
+            "category": "Environmental Contamination",
+            "summary": "Potential volatile organic compounds from printing operations may present risks to human health, particularly through inhalation of vapours in enclosed spaces.",
+            "quote": "These contaminants may present risks to human health (particularly via inhalation of vapours in enclosed spaces) and to controlled waters.",
+            "match": "anchor",
+            "page": 5
+          }
+        ],
+        "final_text": "## Summary of Key Findings\n\nThis Phase I Environmental Site Assessment identifies **three high-severity risks** requiring urgent attention:\n\n1. **Former Printing Works Contamination** – The 27-year printing operation (1975–2002) involved hazardous substances including heavy metals, solvents, and chlorinated chemicals. Spillages and leaks may have contaminated soil and groundwater.\n\n2. **Unknown Underground Storage Tank Status** – A 5,000-litre heating oil tank documented in 1985 has no decommissioning records. Its current location and condition is unknown, presenting significant leakage risk.\n\n3. **Principal Aquifer Vulnerability** – The underlying Sherwood Sandstone is a regionally significant Principal Aquifer. Contaminants could migrate through the glacial till, affecting this critical water resource.\n\n**Additional Concerns** include flood risk exposure (Flood Zone 2), air quality designation, and substantial costs ahead: Phase II investigation (£15,000–£25,000) plus potential remediation (£50,000–£200,000).\n\n**Critical Action Required:** A Phase II intrusive investigation is mandatory before any redevelopment proceeds. The assessment's overall risk classification is LOW to MODERATE, but the contamination risks are material and require detailed ground investigation to resolve."
+      }
+    ],
+    "title-report-lot-7.pdf": [
+      {
+        "error": null,
+        "tool_calls": 1,
+        "risk_count": 6,
+        "severity": {
+          "high": 3,
+          "medium": 3,
+          "low": 0
+        },
+        "exact": 5,
+        "anchor": 1,
+        "unlocated": 0,
+        "stated_counts": {
+          "total": 6,
+          "high": 3
+        },
+        "count_mismatch": false,
+        "seconds": 10.7,
+        "input_tokens": 5903,
+        "output_tokens": 1062,
+        "risks": [
+          {
+            "title": "Restrictive covenant prohibiting industrial and heavy commercial use",
+            "severity": "high",
+            "category": "Restrictive Covenants",
+            "summary": "The property is subject to a covenant dating from 1952 restricting use to non-industrial and non-heavy commercial purposes. This could significantly limit permitted uses and future development potential beyond the current planning permission.",
+            "quote": "The property shall not at any time be used for any industrial, manufacturing or heavy commercial purpose",
+            "match": "exact",
+            "page": 2
+          },
+          {
+            "title": "Building height restriction limited to 4 storeys",
+            "severity": "high",
+            "category": "Restrictive Covenants",
+            "summary": "A historic covenant caps building height at 4 storeys. While the current planning permission complies (two blocks of 3 and 4 storeys), this restricts future development and redevelopment potential.",
+            "quote": "No building or structure shall be erected on the property which exceeds four (4) storeys in height",
+            "match": "exact",
+            "page": 2
+          },
+          {
+            "title": "Mandatory boundary fencing maintenance obligation",
+            "severity": "medium",
+            "category": "Restrictive Covenants",
+            "summary": "The covenant requires continuous maintenance of 1.8-metre boundary fencing along all residential boundaries. Breach could expose the owner to enforcement action by neighbouring properties.",
+            "quote": "The proprietor shall at all times maintain in good repair boundary fencing to a minimum height of 1.8 metres",
+            "match": "exact",
+            "page": 2
+          },
+          {
+            "title": "Shared drainage easement with access rights",
+            "severity": "medium",
+            "category": "Easements",
+            "summary": "A drainage easement crosses the property, granting access rights to statutory undertakers and neighbouring property owners for sewer maintenance and repair. This could cause disruption during construction and future use.",
+            "quote": "There exists a drainage easement for a shared sewer running in a north-easterly to south-westerly direction across the property",
+            "match": "exact",
+            "page": 2
+          },
+          {
+            "title": "Substantial Section 106 financial obligations",
+            "severity": "high",
+            "category": "Planning & Statutory",
+            "summary": "The Section 106 Agreement imposes £260,000 in direct financial contributions (£185,000 for highways, £75,000 for public open space) plus provision of 17 affordable housing units and compliance with employment agreement. These obligations will reduce project viability.",
+            "quote": "contribution of £185,000 towards local highway improvements, contribution of £75,000 towards public open space",
+            "match": "exact",
+            "page": 2
+          },
+          {
+            "title": "Barclays Bank charge securing further advances",
+            "severity": "medium",
+            "category": "Charges",
+            "summary": "The property is subject to a legal charge to Barclays Bank registered 15 March 2019, which secures not only existing debt but also 'further advances'. This means additional borrowing can be secured against the property without notice.",
+            "quote": "LEGAL CHARGE dated 15 March 2019 in favour of Barclays Bank PLC...The charge secures further advances.",
+            "match": "anchor",
+            "page": 1
+          }
+        ],
+        "final_text": "## Summary\n\nThis title report presents **6 material risks**, with **3 high-severity issues**:\n\n**High-severity risks** centre on long-standing restrictive covenants (1952) that restrict industrial/heavy commercial use and cap building height at 4 storeys, plus substantial Section 106 obligations totalling £260,000 plus 35% affordable housing provision. While the current planning permission complies with the covenants, these historic restrictions significantly constrain future development flexibility.\n\n**Medium-severity risks** include the mandatory fencing maintenance covenant, a shared drainage easement crossing the property with access rights for repairs, and the Barclays Bank charge which secures not only existing debt but also \"further advances\"—meaning additional borrowing can be secured without prior notice.\n\n**Key takeaway for your client**: The property is substantially encumbered by restrictive covenants dating to 1952. Even though the current planning permission (granted 2023) complies with these restrictions, any future changes to use or height would need to navigate these covenants, potentially requiring expensive waiver/modification proceedings or insurance. The Section 106 obligations are also substantial and should be carefully modelled into project economics."
+      },
+      {
+        "error": null,
+        "tool_calls": 1,
+        "risk_count": 5,
+        "severity": {
+          "high": 2,
+          "medium": 2,
+          "low": 1
+        },
+        "exact": 4,
+        "anchor": 1,
+        "unlocated": 0,
+        "stated_counts": {
+          "total": 5
+        },
+        "count_mismatch": false,
+        "seconds": 10.7,
+        "input_tokens": 5805,
+        "output_tokens": 1040,
+        "risks": [
+          {
+            "title": "Restrictive covenant prohibiting industrial/commercial use",
+            "severity": "high",
+            "category": "Restrictive Covenants",
+            "summary": "The property is restricted from industrial, manufacturing, or heavy commercial purposes under a 1952 covenant. Current use as commercial building and future residential development may face enforceability challenges if challenged by neighbouring property owners.",
+            "quote": "The property shall not at any time be used for any industrial, manufacturing or heavy commercial purpose",
+            "match": "exact",
+            "page": 2
+          },
+          {
+            "title": "Shared drainage easement with maintenance obligations",
+            "severity": "medium",
+            "category": "Easements",
+            "summary": "A drainage easement crosses the property and imposes obligations to permit access by statutory undertakers and adjoining property owners for maintenance and repair. This may restrict development options and create ongoing liability.",
+            "quote": "The registered proprietor is obliged to permit access for maintenance and repair of the sewer by the relevant statutory undertaker and by the owners of adjoining properties",
+            "match": "exact",
+            "page": 2
+          },
+          {
+            "title": "Section 106 Agreement with substantial financial obligations",
+            "severity": "medium",
+            "category": "Planning & Obligations",
+            "summary": "A Section 106 Agreement imposes significant financial contributions (£185,000 for highways, £75,000 for public open space) and affordable housing requirements (35%, 17 units) and employment commitments. These must be satisfied before or during development.",
+            "quote": "provision of 35% affordable housing (17 units), contribution of £185,000 towards local highway improvements, contribution of £75,000 towards public open space",
+            "match": "exact",
+            "page": 2
+          },
+          {
+            "title": "Barclays Bank charge allowing further advances",
+            "severity": "high",
+            "category": "Charges",
+            "summary": "A legal charge in favour of Barclays Bank is registered and expressly permits further advances beyond the initial 2019 advance. This creates potential for additional debt secured against the property without consent.",
+            "quote": "LEGAL CHARGE dated 15 March 2019 in favour of Barclays Bank PLC... The charge secures further advances.",
+            "match": "anchor",
+            "page": 1
+          },
+          {
+            "title": "Boundary fencing maintenance covenant",
+            "severity": "low",
+            "category": "Restrictive Covenants",
+            "summary": "The property owner must maintain boundary fencing at minimum 1.8 metres height along all residential boundaries. Failure to maintain could constitute breach of covenant.",
+            "quote": "The proprietor shall at all times maintain in good repair boundary fencing to a minimum height of 1.8 metres (6 feet) along all boundaries of the property which adjoin residential properties",
+            "match": "exact",
+            "page": 2
+          }
+        ],
+        "final_text": "## Summary of Key Findings\n\nThis title report reveals **five material risks**, with two rated as **high severity**:\n\n1. **Restrictive Covenant (1952)**: The property is bound by a 1952 covenant prohibiting industrial, manufacturing, or heavy commercial use. While the current residential development aligns with this restriction, it's important to verify that any operational activities (if any) comply with this covenant, as breach could expose the owner to enforcement action by neighbouring properties.\n\n2. **Barclays Bank Charge with Further Advances**: The registered legal charge explicitly permits further advances beyond the original March 2019 mortgage. This creates exposure to additional secured debt that could be drawn down without your client's consent if current default occurs.\n\n3. **Section 106 Agreement Obligations**: The development is subject to substantial obligations including 35% affordable housing, £185,000 highways contribution, £75,000 public open space contribution, and local employment commitments. These are binding and must be fulfilled.\n\n4. **Shared Drainage Easement**: A drainage easement crosses the property with statutory undertakers and adjoining owners having rights of access for maintenance. This restricts the owner's control over the affected land and creates ongoing maintenance coordination risks.\n\n5. **Boundary Fencing Covenant**: A lower-risk but ongoing obligation to maintain 1.8m fencing along residential boundaries.\n\nI'd recommend obtaining further advice on the interaction between the 1952 restrictive covenant and the current/proposed residential use, and clarifying the exact terms of the Barclays charge regarding further advances."
+      },
+      {
+        "error": null,
+        "tool_calls": 1,
+        "risk_count": 6,
+        "severity": {
+          "high": 3,
+          "medium": 2,
+          "low": 1
+        },
+        "exact": 6,
+        "anchor": 0,
+        "unlocated": 0,
+        "stated_counts": {
+          "total": 6
+        },
+        "count_mismatch": false,
+        "seconds": 12.5,
+        "input_tokens": 6105,
+        "output_tokens": 1300,
+        "risks": [
+          {
+            "title": "Restrictive covenant prohibits industrial or heavy commercial use",
+            "severity": "high",
+            "category": "Restrictive Covenant",
+            "summary": "The 1952 covenant restricts the property from industrial, manufacturing, or heavy commercial purposes. This significantly limits permitted uses and could affect development or commercial viability beyond the current planning permission.",
+            "quote": "The property shall not at any time be used for any industrial, manufacturing or heavy commercial purpose, nor for any purpose which may be or become a nuisance, annoyance or disturbance to the owners or occupiers of neighbouring properties.",
+            "match": "exact",
+            "page": 2
+          },
+          {
+            "title": "Height restriction limited to 4 storeys",
+            "severity": "medium",
+            "category": "Restrictive Covenant",
+            "summary": "The covenant caps building height at 4 storeys from the 1952 ground level. While the current planning permission (3-4 storeys) complies, this restricts future redevelopment potential and any height increases would require covenant discharge or modification.",
+            "quote": "No building or structure shall be erected on the property which exceeds four (4) storeys in height, measured from the existing ground level at the date of the conveyance.",
+            "match": "exact",
+            "page": 2
+          },
+          {
+            "title": "Barclays mortgage secures further advances",
+            "severity": "high",
+            "category": "Charge",
+            "summary": "The registered charge dated 15 March 2019 in favour of Barclays Bank PLC secures not just the original loan but also future advances. This means additional borrowing could be taken against the property without notification or further registration.",
+            "quote": "LEGAL CHARGE dated 15 March 2019 in favour of Barclays Bank PLC (Company No. 01026167), registered office at 1 Churchill Place, London E14 5HP. The charge secures further advances.",
+            "match": "exact",
+            "page": 1
+          },
+          {
+            "title": "Shared drainage easement across property",
+            "severity": "medium",
+            "category": "Easement",
+            "summary": "A drainage easement for a shared sewer crosses the property. Third parties retain rights to access the property for maintenance and repair, which could disrupt development or use and may require compensation if pipes need replacement.",
+            "quote": "There exists a drainage easement for a shared sewer running in a north-easterly to south-westerly direction across the property (shown by a broken blue line on the title plan).",
+            "match": "exact",
+            "page": 2
+          },
+          {
+            "title": "Boundary fencing maintenance obligation to minimum 1.8 metres",
+            "severity": "low",
+            "category": "Restrictive Covenant",
+            "summary": "The proprietor must maintain boundary fencing to a minimum height of 1.8 metres along all residential boundaries. Failure to maintain this could result in breach of covenant, though enforcement is typically limited.",
+            "quote": "The proprietor shall at all times maintain in good repair boundary fencing to a minimum height of 1.8 metres (6 feet) along all boundaries of the property which adjoin residential properties.",
+            "match": "exact",
+            "page": 2
+          },
+          {
+            "title": "Section 106 obligations tied to planning permission",
+            "severity": "high",
+            "category": "Planning",
+            "summary": "The property is bound by significant Section 106 obligations including 35% affordable housing (17 units), £185,000 highway contribution, £75,000 public open space contribution, and a local employment agreement. These are enforceable obligations that will increase development costs.",
+            "quote": "A Section 106 Agreement (Town and Country Planning Act 1990) dated 12 October 2023 between the London Borough of Hackney (1), Victoria Park Developments Ltd (2), and Barclays Bank PLC (3) has been registered against the title. Key obligations include: provision of 35% affordable housing (17 units), contribution of £185,000 towards local highway improvements, contribution of £75,000 towards public open space, and a commitment to enter into a local employment agreement during the construction phase.",
+            "match": "exact",
+            "page": 2
+          }
+        ],
+        "final_text": "## Risk Review Summary\n\nI've identified **6 material risks** across the title report:\n\n**High Severity (3):**\n1. **Restrictive covenant on use** — The 1952 covenant prevents industrial or heavy commercial purposes, which fundamentally restricts the property's permitted uses beyond the residential planning permission\n2. **Mortgage secures further advances** — Barclays' charge allows additional borrowing without additional registration, creating exposure to unforeseen debt\n3. **Section 106 obligations** — The registered planning obligations impose substantial costs (35% affordable housing, £260,000 in contributions, plus employment agreement), which will materially affect project economics\n\n**Medium Severity (2):**\n- **4-storey height cap** — While the current scheme complies, future expansion is capped by the 1952 covenant\n- **Shared drainage easement** — Third-party rights to access the property for sewer maintenance could interfere with development and use\n\n**Low Severity (1):**\n- **Boundary fencing obligation** — Ongoing maintenance requirement for 1.8m fencing along residential boundaries\n\nThe key concern for your client is the interplay between the restrictive use covenant and the Section 106 obligations—both lock significant constraints and costs into the title that will affect valuation, financing, and development viability."
+      },
+      {
+        "error": null,
+        "tool_calls": 1,
+        "risk_count": 6,
+        "severity": {
+          "high": 4,
+          "medium": 2,
+          "low": 0
+        },
+        "exact": 6,
+        "anchor": 0,
+        "unlocated": 0,
+        "stated_counts": {
+          "high": 4
+        },
+        "count_mismatch": false,
+        "seconds": 11.4,
+        "input_tokens": 6036,
+        "output_tokens": 1220,
+        "risks": [
+          {
+            "title": "Restrictive covenant: No industrial/manufacturing/heavy commercial use",
+            "severity": "high",
+            "category": "Restrictive Covenants",
+            "summary": "The property is subject to a restrictive covenant from 1952 prohibiting industrial, manufacturing, or heavy commercial purposes. This significantly limits potential uses and could restrict development flexibility or future commercial operations.",
+            "quote": "The property shall not at any time be used for any industrial, manufacturing or heavy commercial purpose, nor for any purpose which may be or become a nuisance, annoyance or disturbance to the owners or occupiers of neighbouring properties.",
+            "match": "exact",
+            "page": 2
+          },
+          {
+            "title": "Restrictive covenant: Maximum building height of 4 storeys",
+            "severity": "high",
+            "category": "Restrictive Covenants",
+            "summary": "A restrictive covenant limits building height to 4 storeys from 1952 ground level. This constrains development intensity and may conflict with future redevelopment plans or density optimization.",
+            "quote": "No building or structure shall be erected on the property which exceeds four (4) storeys in height, measured from the existing ground level at the date of the conveyance.",
+            "match": "exact",
+            "page": 2
+          },
+          {
+            "title": "Boundary fencing maintenance obligation",
+            "severity": "medium",
+            "category": "Restrictive Covenants",
+            "summary": "The proprietor must maintain boundary fencing at a minimum height of 1.8 metres along all boundaries adjoining residential properties. Breach could result in legal action by neighboring property owners.",
+            "quote": "The proprietor shall at all times maintain in good repair boundary fencing to a minimum height of 1.8 metres (6 feet) along all boundaries of the property which adjoin residential properties.",
+            "match": "exact",
+            "page": 2
+          },
+          {
+            "title": "Shared drainage easement across property",
+            "severity": "medium",
+            "category": "Easements",
+            "summary": "A drainage easement for a shared sewer crosses the property and the proprietor must permit access for maintenance and repair by statutory undertakers and neighboring property owners. This could disrupt operations and limit use of affected areas.",
+            "quote": "There exists a drainage easement for a shared sewer running in a north-easterly to south-westerly direction across the property (shown by a broken blue line on the title plan).",
+            "match": "exact",
+            "page": 2
+          },
+          {
+            "title": "Barclays Bank legal charge securing further advances",
+            "severity": "high",
+            "category": "Charges",
+            "summary": "A legal charge dated 15 March 2019 in favour of Barclays Bank is registered against the title and secures further advances. This creates debt obligations and potential enforcement risk if covenant breaches occur.",
+            "quote": "LEGAL CHARGE dated 15 March 2019 in favour of Barclays Bank PLC (Company No. 01026167), registered office at 1 Churchill Place, London E14 5HP. The charge secures further advances.",
+            "match": "exact",
+            "page": 1
+          },
+          {
+            "title": "Section 106 Agreement obligations",
+            "severity": "high",
+            "category": "Planning & Development",
+            "summary": "A Section 106 Agreement creates binding obligations including provision of 35% affordable housing (17 units), £185,000 contribution for highway improvements, £75,000 for public open space, and a local employment agreement during construction. These obligations represent substantial financial and operational commitments.",
+            "quote": "Key obligations include: provision of 35% affordable housing (17 units), contribution of £185,000 towards local highway improvements, contribution of £75,000 towards public open space, and a commitment to enter into a local employment agreement during the construction phase.",
+            "match": "exact",
+            "page": 2
+          }
+        ],
+        "final_text": "**Summary of Key Findings:**\n\nThis title report presents **four high-severity risks** and two medium-severity risks that require careful attention:\n\n**Critical Issues:**\n\n1. **Restrictive covenants from 1952** severely limit development flexibility—the property cannot be used for industrial/manufacturing/heavy commercial purposes and is capped at 4 storeys. These are historic constraints that bind successors in title.\n\n2. **Outstanding legal charge to Barclays Bank** securing further advances creates debt obligations and enforcement risk. The charge details and terms should be reviewed carefully, particularly given the substantial Section 106 obligations noted below.\n\n3. **Section 106 Agreement obligations** are substantial: 35% affordable housing requirement (17 units), £185,000 highway contribution, £75,000 public open space contribution, plus a construction-phase employment agreement. These commitments significantly impact project viability and cash flow.\n\n4. **Shared drainage easement** across the property allows third-party access for maintenance, potentially restricting use of affected areas and creating operational disruption risk.\n\nYou should obtain copies of the legal charge agreement and Section 106 Agreement for detailed review, and consider whether the restrictive covenants (particularly the 4-storey limit) conflict with the recently granted planning permission for a 4-storey residential scheme."
+      },
+      {
+        "error": null,
+        "tool_calls": 1,
+        "risk_count": 5,
+        "severity": {
+          "high": 2,
+          "medium": 2,
+          "low": 1
+        },
+        "exact": 5,
+        "anchor": 0,
+        "unlocated": 0,
+        "stated_counts": {
+          "total": 5,
+          "high": 2
+        },
+        "count_mismatch": false,
+        "seconds": 9.5,
+        "input_tokens": 5828,
+        "output_tokens": 1006,
+        "risks": [
+          {
+            "title": "Restrictive covenant prohibits industrial and heavy commercial use",
+            "severity": "high",
+            "category": "Restrictive Covenant",
+            "summary": "The property is subject to a 1952 covenant restricting use for industrial, manufacturing or heavy commercial purposes. This significantly limits the potential uses and development options for the land.",
+            "quote": "The property shall not at any time be used for any industrial, manufacturing or heavy commercial purpose, nor for any purpose which may be or become a nuisance, annoyance or disturbance to the owners or occupiers of neighbouring properties.",
+            "match": "exact",
+            "page": 2
+          },
+          {
+            "title": "Height restriction limited to 4 storeys",
+            "severity": "medium",
+            "category": "Restrictive Covenant",
+            "summary": "A 1952 covenant restricts building height to a maximum of 4 storeys. While the approved development complies with this limit, it constrains future redevelopment potential.",
+            "quote": "No building or structure shall be erected on the property which exceeds four (4) storeys in height, measured from the existing ground level at the date of the conveyance.",
+            "match": "exact",
+            "page": 2
+          },
+          {
+            "title": "Drainage easement crosses the property",
+            "severity": "medium",
+            "category": "Easements",
+            "summary": "A shared sewer drainage easement runs across the property, obligating the owner to permit access for maintenance and repair by statutory undertakers and neighbouring property owners.",
+            "quote": "There exists a drainage easement for a shared sewer running in a north-easterly to south-westerly direction across the property (shown by a broken blue line on the title plan).",
+            "match": "exact",
+            "page": 2
+          },
+          {
+            "title": "Barclays Bank charge securing further advances",
+            "severity": "high",
+            "category": "Charges",
+            "summary": "A legal charge by Barclays Bank is registered against the title and is noted as securing 'further advances', meaning additional borrowing may be secured against the property without additional consent.",
+            "quote": "LEGAL CHARGE dated 15 March 2019 in favour of Barclays Bank PLC (Company No. 01026167), registered office at 1 Churchill Place, London E14 5HP. The charge secures further advances.",
+            "match": "exact",
+            "page": 1
+          },
+          {
+            "title": "Boundary fencing maintenance obligation",
+            "severity": "low",
+            "category": "Restrictive Covenant",
+            "summary": "The owner must maintain boundary fencing to a minimum height of 1.8 metres along all boundaries adjoining residential properties. Non-compliance could expose the owner to breach of covenant claims.",
+            "quote": "The proprietor shall at all times maintain in good repair boundary fencing to a minimum height of 1.8 metres (6 feet) along all boundaries of the property which adjoin residential properties.",
+            "match": "exact",
+            "page": 2
+          }
+        ],
+        "final_text": "## Summary\n\nThis title report presents **5 material risks**, with **2 high-severity issues**:\n\n**Key findings:**\n\n1. **Restrictive covenant on use (High)**: The 1952 restrictive covenant prohibits industrial and heavy commercial purposes. This is a significant constraint, though the current residential development planning permission (B/2023/4521) appears compliant with this restriction.\n\n2. **Barclays Bank charge with further advances (High)**: The registered charge allows for further advances without explicit consent. This creates a risk that additional debt could be secured against the property, potentially affecting development financing and refinancing options.\n\n3. **Height restriction (Medium)**: The 4-storey maximum height covenant slightly constrains the approved development (which has blocks of 3 and 4 storeys) and limits future intensification.\n\n4. **Drainage easement (Medium)**: The shared sewer crossing the property creates ongoing access and maintenance obligations that could disrupt operations or development.\n\n5. **Fencing maintenance obligation (Low)**: The requirement to maintain 1.8m boundary fencing is manageable but represents an ongoing compliance obligation.\n\nThe property has valid planning permission for residential development, which aligns with the restrictive covenant limitations on the current use."
+      }
+    ]
+  }
+}

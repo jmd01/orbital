@@ -48,7 +48,7 @@ class ChatDeps:
 
 
 agent = Agent(
-    "anthropic:claude-haiku-4-5-20251001",
+    "anthropic:claude-haiku-5-5",
     deps_type=ChatDeps,
     system_prompt=(
         "You are a helpful legal document assistant for commercial real estate lawyers. "

@@ -1,0 +1,471 @@
+{
+  "meta": {
+    "timestamp": "2026-11-01T16-16-34Z",
+    "model": "anthropic:claude-haiku-5-5",
+    "runs_per_doc": 1,
+    "commit": "54a0860",
+    "dirty": true,
+    "prompt_hash": "4e387666",
+    "request": "Run a risk review of this document"
+  },
+  "summaries": {
+    "commercial-lease-100-bishopsgate.pdf": {
+      "runs": 1,
+      "errors": 0,
+      "tool_called_once": 1,
+      "risk_count": [
+        18
+      ],
+      "exact_rate": 1.0,
+      "located_rate": 1.0,
+      "summary_checked": 1,
+      "summary_count_mismatches": 0,
+      "title_stability": null,
+      "mean_seconds": 29.3,
+      "mean_input_tokens": 22803,
+      "mean_output_tokens": 7060
+    },
+    "environmental-assessment-manchester.pdf": {
+      "runs": 1,
+      "errors": 0,
+      "tool_called_once": 1,
+      "risk_count": [
+        11
+      ],
+      "exact_rate": 1.0,
+      "located_rate": 1.0,
+      "summary_checked": 1,
+      "summary_count_mismatches": 0,
+      "title_stability": null,
+      "mean_seconds": 13.3,
+      "mean_input_tokens": 16284,
+      "mean_output_tokens": 3234
+    },
+    "title-report-lot-7.pdf": {
+      "runs": 1,
+      "errors": 0,
+      "tool_called_once": 1,
+      "risk_count": [
+        8
+      ],
+      "exact_rate": 1.0,
+      "located_rate": 1.0,
+      "summary_checked": 1,
+      "summary_count_mismatches": 0,
+      "title_stability": null,
+      "mean_seconds": 15.7,
+      "mean_input_tokens": 9215,
+      "mean_output_tokens": 3546
+    }
+  },
+  "runs": {
+    "commercial-lease-100-bishopsgate.pdf": [
+      {
+        "error": null,
+        "tool_calls": 1,
+        "risk_count": 18,
+        "severity": {
+          "high": 5,
+          "medium": 9,
+          "low": 4
+        },
+        "exact": 18,
+        "anchor": 0,
+        "unlocated": 0,
+        "stated_counts": {
+          "total": 18
+        },
+        "count_mismatch": false,
+        "seconds": 29.3,
+        "input_tokens": 22803,
+        "output_tokens": 7060,
+        "risks": [
+          {
+            "title": "Upward-only rent review",
+            "severity": "high",
+            "category": "Rent",
+            "summary": "The rent can only stay the same or increase at the 2029 and 2034 reviews, with no downward adjustment even if the market falls. This is a significant cost exposure over a 15-year term.",
+            "quote": "The rent review shall be upward only.",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Break Premium of six months' rent",
+            "severity": "high",
+            "category": "Break Clause",
+            "summary": "Exercising a break requires a payment of six months' rent in cleared funds on or before the Break Date, which adds materially to the cost of early exit (approximately £425,000 at the initial rent).",
+            "quote": "a sum equivalent to six (6) months' rent at the rate payable immediately before the Break Date",
+            "match": "exact",
+            "page": 7
+          },
+          {
+            "title": "Break conditioned on vacant possession",
+            "severity": "high",
+            "category": "Break Clause",
+            "summary": "The break only takes effect if the whole Premises are vacant, free from occupiers and subtenants, on the Break Date. Any non-compliance, however minor, voids the Break Notice entirely (clause 8.3.2).",
+            "quote": "the Tenant gives vacant possession of the whole of the Premises to the Landlord on or before the Break Date",
+            "match": "exact",
+            "page": 7
+          },
+          {
+            "title": "Break Notice irrevocable with 12 months' notice",
+            "severity": "medium",
+            "category": "Break Clause",
+            "summary": "Once served, a Break Notice cannot be withdrawn, and it must be given at least 12 months before the Break Date. The tenant must commit to exit without knowing whether the conditions will be met.",
+            "quote": "A Break Notice, once given, shall be irrevocable.",
+            "match": "exact",
+            "page": 7
+          },
+          {
+            "title": "Absolute prohibition on subletting part",
+            "severity": "high",
+            "category": "Alienation",
+            "summary": "The tenant cannot sublet any part of the 32,500 sq ft floorplate, only the whole. This significantly limits flexibility to reduce space or share with group companies or others.",
+            "quote": "The Tenant shall not sublet any part of the Premises (as distinct from the whole).",
+            "match": "exact",
+            "page": 7
+          },
+          {
+            "title": "Subletting of whole at not less than market rent with upward-only sub-reviews",
+            "severity": "medium",
+            "category": "Alienation",
+            "summary": "Any subletting of the whole must be at no less than the higher of the passing rent and the open market rent, and sub-leases must contain upward-only reviews at intervals of no more than five years. This restricts commercial flexibility and sub-letting value.",
+            "quote": "provided that any subletting shall be at a rent not less than the higher of the rent payable under this Lease and the then open market rent of the Premises.",
+            "match": "exact",
+            "page": 6
+          },
+          {
+            "title": "Assignment conditions and AGA requirement",
+            "severity": "medium",
+            "category": "Alienation",
+            "summary": "Consent may be conditioned on an authorised guarantee agreement from the outgoing tenant. The landlord may also refuse unless the assignee shows financial standing and is 'respectable and responsible', a subjective test that can delay or frustrate an assignment.",
+            "quote": "a requirement for an authorised guarantee agreement from the outgoing Tenant",
+            "match": "exact",
+            "page": 6
+          },
+          {
+            "title": "Full repairing obligation including all alterations and load-bearing walls",
+            "severity": "high",
+            "category": "Repair",
+            "summary": "The tenant bears full repair, including all alterations and additions, and internal surfaces of load-bearing walls and structural elements. Only the schedule of condition (clause 4.3) limits the repair standard, so the tenant may face material dilapidations costs at lease end.",
+            "quote": "The Tenant shall keep the Premises and every part thereof (including all additions and alterations thereto) in good and substantial repair and condition throughout the Term",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Decorating standard tied to first-class City office",
+            "severity": "medium",
+            "category": "Repair",
+            "summary": "Decoration must meet a first-class City of London office standard, with redecoration at least every five years and in the last year of the term. This is an ongoing cost and a dilapidations risk.",
+            "quote": "properly decorated to a standard consistent with that of a first-class office building in the City of London",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Broad environmental indemnity including statutory liability",
+            "severity": "medium",
+            "category": "Environmental",
+            "summary": "The tenant indemnifies against environmental contamination caused by its acts or those at the Premises, expressly including Part IIA EPA 1990 liability and any future environmental legislation. The indemnity has no stated cap or time limit.",
+            "quote": "the Tenant's environmental indemnity shall include liability under Part IIA of the Environmental Protection Act 1990",
+            "match": "exact",
+            "page": 8
+          },
+          {
+            "title": "Broad general indemnity",
+            "severity": "medium",
+            "category": "Indemnity",
+            "summary": "The tenant indemnifies the landlord for losses arising 'directly or indirectly' from any act, omission or negligence of the tenant or its invitees, and from the exercise of any tenant rights. The scope is wide and not limited by reference to fault or causation.",
+            "quote": "arising directly or indirectly out of: (a) any act, omission or negligence of the Tenant",
+            "match": "exact",
+            "page": 7
+          },
+          {
+            "title": "Service charge and insurance recharges",
+            "severity": "medium",
+            "category": "Service Charge",
+            "summary": "The tenant pays 18.7% of landlord repair and service costs under Schedule 3, which is not included in the document, and reimburses insurance premiums and excesses as additional rent. Without Schedule 3 the cost controls and budgeting mechanism cannot be verified.",
+            "quote": "recoverable from the Tenant as part of the service charge in accordance with Schedule 3 hereto",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Open-ended additional insured risks",
+            "severity": "low",
+            "category": "Insurance",
+            "summary": "The landlord may add insured risks at its reasonable discretion, which may increase the tenant's insurance recharge. The landlord's obligation to seek subrogation waivers is only a reasonable-endeavours obligation.",
+            "quote": "such other risks as the Landlord may from time to time reasonably determine",
+            "match": "exact",
+            "page": 3
+          },
+          {
+            "title": "Missing schedules and plans",
+            "severity": "medium",
+            "category": "Documentation",
+            "summary": "The lease refers to a schedule of condition at Schedule 4 and plans edged in red, but neither is included in the document. The Premises and repair baseline therefore cannot be verified.",
+            "quote": "is annexed to this Lease at Schedule 4",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Tenant covenant strength and no guarantee",
+            "severity": "medium",
+            "category": "Covenant",
+            "summary": "The tenant is an LLP with no guarantor, rent deposit or other security in the document. The landlord's exposure over a 15-year term depends entirely on the tenant's financial strength.",
+            "quote": "Meridian Consulting Group LLP (Registration No. OC412987)",
+            "match": "exact",
+            "page": 3
+          },
+          {
+            "title": "Permitted use drafting inconsistency",
+            "severity": "low",
+            "category": "Use",
+            "summary": "The use clause describes Class E(g)(i) as offices 'that may be carried out in a residential area without detriment to its amenity', which is a loose paraphrase of the Use Classes Order wording and could create interpretation disputes. Use is otherwise limited to offices only.",
+            "quote": "being offices for the conduct of business operations that may be carried out in a residential area without detriment to its amenity",
+            "match": "exact",
+            "page": 6
+          },
+          {
+            "title": "Document appears unexecuted",
+            "severity": "low",
+            "category": "Execution",
+            "summary": "The signature blocks are blank in this copy. The executed counterpart should be obtained and checked to confirm that the lease was validly executed as a deed.",
+            "quote": "acting by two members:",
+            "match": "exact",
+            "page": 9
+          },
+          {
+            "title": "Multi-stage dispute resolution",
+            "severity": "low",
+            "category": "Disputes",
+            "summary": "Disputes must go through CEDR mediation, lasting up to 56 days, before arbitration can start. This adds time and cost to any dispute, including those over break or rent review.",
+            "quote": "If the Dispute is not resolved within fifty-six (56) days of the Mediation Notice",
+            "match": "exact",
+            "page": 8
+          }
+        ],
+        "final_text": "The risk review is complete. The table above lists 18 risks: 5 high, 9 medium and 4 low.\n\nThe headline issues for the tenant are:\n\n1. **Upward-only rent review** (cl. 3.2.5): the rent cannot fall at the 2029 or 2034 reviews, even if the market does.\n2. **Break conditions** (cl. 8.3): exercising the break requires six months' rent as a premium (about £425,000 at the initial rent) and vacant possession of the whole Premises. Any unmet condition voids the break, and the Break Notice is irrevocable once served (cl. 8.2.1).\n3. **Alienation restrictions** (cl. 7.3.1): subletting of part is absolutely prohibited, and subletting of the whole must be at no less than market rent.\n4. **Full repairing obligation** (cl. 4.1): the tenant must repair alterations and load-bearing elements, with a first-class City decorating standard, which creates dilapidations exposure. The schedule of condition at cl. 4.3 is the only limit.\n\nTwo gaps limit the review. Schedule 3 (service charge), Schedule 4 (schedule of condition) and the plans are referred to but not included in the document, so those terms could not be verified. The signature blocks are also blank, so the executed counterpart should be obtained."
+      }
+    ],
+    "environmental-assessment-manchester.pdf": [
+      {
+        "error": null,
+        "tool_calls": 1,
+        "risk_count": 11,
+        "severity": {
+          "high": 4,
+          "medium": 5,
+          "low": 2
+        },
+        "exact": 11,
+        "anchor": 0,
+        "unlocated": 0,
+        "stated_counts": {
+          "total": 11
+        },
+        "count_mismatch": false,
+        "seconds": 13.3,
+        "input_tokens": 16284,
+        "output_tokens": 3234,
+        "risks": [
+          {
+            "title": "Probable contamination from former printing works",
+            "severity": "high",
+            "category": "Environmental",
+            "summary": "The consultant rates the risk of soil contamination from the 1975-2002 printing use as moderate, with solvents, heavy metals and inks as contaminants of concern. The risk is not yet quantified, and the Phase I report is desk-based.",
+            "quote": "There is a moderate risk that soil beneath and adjacent to the building has been contaminated by substances associated with the former printing works use",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Unknown status of underground storage tank",
+            "severity": "high",
+            "category": "Environmental",
+            "summary": "A c.5,000 litre heating oil UST recorded in 1985 may remain in situ and could be leaking. Removal or decommissioning may be needed, and the tank's location and condition are unverified.",
+            "quote": "The current status of the tank is therefore unknown.",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Phase II intrusive investigation outstanding",
+            "severity": "high",
+            "category": "Environmental",
+            "summary": "The consultant recommends a Phase II investigation before the risks can be characterised. Until it is completed, contamination extent and remediation liability remain unknown.",
+            "quote": "A Phase II intrusive investigation is recommended to further characterise these risks.",
+            "match": "exact",
+            "page": 2
+          },
+          {
+            "title": "Remediation costs excluded from Phase II estimate",
+            "severity": "high",
+            "category": "Cost",
+            "summary": "The £15,000-£25,000 Phase II estimate excludes any further assessment or remediation. Remediation could cost £50,000-£200,000 or more, so the budget is understated.",
+            "quote": "The estimate does not include any costs associated with further assessment or remediation which may be required depending on the findings of the Phase II investigation.",
+            "match": "exact",
+            "page": 6
+          },
+          {
+            "title": "Indicative remediation range with wide variance",
+            "severity": "medium",
+            "category": "Cost",
+            "summary": "Remediation is estimated at £50,000 to £200,000 excluding VAT, and the consultant says these figures are indicative only. The upper end could require in situ treatment or groundwater remediation, which would affect pricing and any redevelopment programme.",
+            "quote": "remediation costs are estimated in the range of £50,000 to £200,000 (exclusive of VAT), depending on the extent and severity of contamination.",
+            "match": "exact",
+            "page": 6
+          },
+          {
+            "title": "Human health and controlled waters exposure",
+            "severity": "medium",
+            "category": "Environmental",
+            "summary": "Volatile contaminants may pose vapour inhalation risks in enclosed spaces. Migration through glacial till could affect the underlying Principal Aquifer, which may bring regulatory and liability exposure for the owner.",
+            "quote": "These contaminants may present risks to human health (particularly via inhalation of vapours in enclosed spaces)",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "Inconsistency in spillage risk assessment",
+            "severity": "medium",
+            "category": "Environmental",
+            "summary": "Section 6.1.1 says there are no known significant spillage incidents, but Section 5.2.2 says spillages over 27 years may have caused contamination. The moderate risk rating rests partly on this premise, which should be checked.",
+            "quote": "there are no known specific incidents of significant spillage.",
+            "match": "exact",
+            "page": 5
+          },
+          {
+            "title": "No reliance for third parties",
+            "severity": "medium",
+            "category": "Reliance",
+            "summary": "The report is for the sole use of the client and no liability is accepted to third parties. A lender, purchaser or tenant would need a reliance letter or new report.",
+            "quote": "No liability is accepted to any third party for the whole or any part of the contents of this report.",
+            "match": "exact",
+            "page": 6
+          },
+          {
+            "title": "Flood Zone 2 without defences",
+            "severity": "medium",
+            "category": "Flood",
+            "summary": "The site is in Flood Zone 2 (medium probability) and is not protected by defences. This may affect insurance, development viability and planning.",
+            "quote": "The Site is not within an area benefiting from flood defences.",
+            "match": "exact",
+            "page": 3
+          },
+          {
+            "title": "Historical chlorinated solvent discharge nearby",
+            "severity": "low",
+            "category": "Environmental",
+            "summary": "A 1993 chlorinated solvent discharge from a dry cleaner about 200m away was closed in 1997. It is unlikely to affect the site directly but adds to the groundwater context.",
+            "quote": "Subsequent monitoring confirmed that groundwater quality had returned to acceptable levels.",
+            "match": "exact",
+            "page": 3
+          },
+          {
+            "title": "Air quality management area",
+            "severity": "low",
+            "category": "Planning",
+            "summary": "The site is in an AQMA for nitrogen dioxide. This may affect planning conditions or mitigation for the redevelopment.",
+            "quote": "The Site is located within the Greater Manchester Air Quality Management Area (AQMA)",
+            "match": "exact",
+            "page": 3
+          }
+        ],
+        "final_text": "The review found 11 risks: 4 high, 5 medium and 2 low.\n\nThe main concerns are environmental. The former printing works (1975-2002) present a moderate risk of soil contamination, and an underground heating oil tank of unknown status may still be in the rear yard. The consultant recommends a Phase II investigation, which is not yet done. Its £15,000-£25,000 estimate excludes remediation, which the report puts at £50,000-£200,000 excluding VAT, on an indicative basis.\n\nThe report is for the client's sole use, with no third-party reliance, so lenders or purchasers will need a reliance letter. The site is also in Flood Zone 2 without defences. The report's statement that there were no known significant spillages (s.6.1.1) sits uneasily with its own note that spillages may have occurred (s.5.2.2), which is worth raising with the consultant."
+      }
+    ],
+    "title-report-lot-7.pdf": [
+      {
+        "error": null,
+        "tool_calls": 1,
+        "risk_count": 8,
+        "severity": {
+          "high": 2,
+          "medium": 4,
+          "low": 2
+        },
+        "exact": 8,
+        "anchor": 0,
+        "unlocated": 0,
+        "stated_counts": {
+          "total": 8
+        },
+        "count_mismatch": false,
+        "seconds": 15.7,
+        "input_tokens": 9215,
+        "output_tokens": 3546,
+        "risks": [
+          {
+            "title": "Report cannot be relied on as the register",
+            "severity": "high",
+            "category": "Due diligence / Reliance",
+            "summary": "This is an official title report, not a copy of the register, and it expressly may not be relied on for Section 67 LRA 2002 purposes. Obtain an official copy of the register and title plan, and the filed documents, before relying on these entries.",
+            "quote": "It is not a copy of the register and may not be relied upon for the purposes of Section 67 of the Land Registration Act 2002.",
+            "match": "exact",
+            "page": 3
+          },
+          {
+            "title": "Section 106 financial and affordable housing obligations",
+            "severity": "high",
+            "category": "Planning / S106",
+            "summary": "The S106 agreement runs with the land and imposes 35% affordable housing (17 units), a £185,000 highway contribution, a £75,000 open space contribution and a local employment commitment. These significantly affect development viability and must be costed and verified against the full agreement.",
+            "quote": "contribution of £185,000 towards local highway improvements",
+            "match": "exact",
+            "page": 2
+          },
+          {
+            "title": "Existing charge with further advances",
+            "severity": "medium",
+            "category": "Charges / Finance",
+            "summary": "A legal charge in favour of Barclays secures further advances, so the debt may be larger than the original loan. It must be redeemed or discharged on completion, and Barclays is also a party to the S106, so its consent and release mechanics need checking.",
+            "quote": "The charge secures further advances.",
+            "match": "exact",
+            "page": 1
+          },
+          {
+            "title": "Drainage easement across the development site",
+            "severity": "medium",
+            "category": "Easements / Development",
+            "summary": "A shared sewer crosses the property diagonally. Development layout, building footprints and car parking must avoid or accommodate the sewer, and the owner must permit maintenance access by the statutory undertaker and adjoining owners.",
+            "quote": "There exists a drainage easement for a shared sewer running in a north-easterly to south-westerly direction across the property",
+            "match": "exact",
+            "page": 2
+          },
+          {
+            "title": "Inconsistent description of access and right of way",
+            "severity": "medium",
+            "category": "Access / Easements",
+            "summary": "The property description says the north boundary is Victoria Park Road, but the right of way is described as running over an access road to the north. Access rights and the site boundaries need to be confirmed against the title plan, because the site access for the scheme depends on this.",
+            "quote": "bounded to the north by Victoria Park Road",
+            "match": "exact",
+            "page": 1
+          },
+          {
+            "title": "Historic 1952 restrictive covenants binding successors",
+            "severity": "medium",
+            "category": "Restrictive covenants",
+            "summary": "The 1952 covenants bind the proprietor and successors in title. They restrict use (no industrial, manufacturing or heavy commercial use or nuisance) and require fencing. Their enforceability and the identity of any beneficiaries should be investigated, and the proposed residential use checked against them.",
+            "quote": "The following restrictive covenants are contained in the conveyance dated 1 June 1952 and are binding on the registered proprietor and successors in title:",
+            "match": "exact",
+            "page": 2
+          },
+          {
+            "title": "Ongoing boundary fencing maintenance obligation",
+            "severity": "low",
+            "category": "Covenants / Maintenance",
+            "summary": "The owner must keep 1.8m boundary fencing in good repair along all boundaries adjoining residential properties. This is a continuing cost and a compliance point during demolition and construction.",
+            "quote": "The proprietor shall at all times maintain in good repair boundary fencing to a minimum height of 1.8 metres (6 feet)",
+            "match": "exact",
+            "page": 2
+          },
+          {
+            "title": "Four-storey height cap",
+            "severity": "low",
+            "category": "Planning / Covenants",
+            "summary": "The 1952 covenant caps buildings at four storeys measured from the 1952 ground level. The consented scheme (3 and 4 storeys) appears to comply, but the ground level reference should be checked against the planning height calculations.",
+            "quote": "No building or structure shall be erected on the property which exceeds four (4) storeys in height",
+            "match": "exact",
+            "page": 2
+          }
+        ],
+        "final_text": "I've flagged eight risks: two high, four medium and two low. The table shows each one with its supporting quote.\n\n**Headline findings:**\n- **Reliance:** This is an official title report, not a copy of the register, and it says it may not be relied on for Section 67 purposes. The register and filed documents need to be obtained before anything is relied on.\n- **S106 obligations:** The agreement, which is registered against the title, requires 35% affordable housing (17 units), a £185,000 highway contribution, a £75,000 open space contribution and a local employment commitment. These should be costed against the scheme.\n- **Existing charge:** The Barclays legal charge secures further advances, so the amount outstanding may exceed the original loan. It will need redeeming or discharging on completion.\n- **Development constraints:** A shared sewer crosses the site, and the 1952 covenants restrict use and bind successors. The consented residential scheme appears to fit within the four-storey cap, but the ground level reference should be checked.\n- **Inconsistency to resolve:** The description places Victoria Park Road to the north, yet the right of way runs over an access road to the north. The access arrangements should be confirmed against the title plan."
+      }
+    ]
+  }
+}
